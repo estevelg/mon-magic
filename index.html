@@ -969,7 +969,7 @@
                          '🍐','🍊','🍒','🐱','🐶','🐰','🦋','🐌','🐦','🌳','🚲','📚','🎁','🍄','🥕','🥚',
                          '🐧','🐑','🍦','🔑'];
   const SHAPE_NAMES = {circle:'Cercle', square:'Quadrat', triangle:'Triangle', rectangle:'Rectangle', star:'Estrella'};
-  const TYPE_LABELS = {suma:'Sumes', resta:'Restes', incognita:'Troba el número', dobles:'Dobles i meitats', compara:'Comparar', sequencia:'Seqüències', geometria:'Formes', rellotge:'Rellotge', comptar:'Comptar', colors:'Colors', mida:'Gran i petit', ordenar:'Ordenar nombres', problema:'Problemes', monedes:'Monedes', reconeixer:'Busca el número', multiplicacio:'Multiplicar', divisio:'Dividir', fraccions:'Fraccions', decimals:'Decimals', percentatge:'Percentatges', mesura:'Mesures', parell:'Parells i senars', operacions:'Operacions combinades', mitjana:'Mitjana', proporcio:'Proporcions', temperatura:'Temperatura', angles:'Angles', perimetre:'Perímetre i àrea', multiples:'Múltiples i divisors', diferent:'Quin és diferent', daus:'El dau', llargada:'Llarg i curt', lletres:'Les lletres', sillabes:'Síl·labes', rimes:'Rimes', lectura:'Lectura', gramatica:'Gramàtica', frases:'Ordenar frases', intrus:'L\'intrús', sinonims:'Sinònims', antonims:'Contraris', ortografia:'Ortografia', alfabet:'Ordre alfabètic', accents:'Accentuació', frasesfetes:'Frases fetes', verbs:'Els verbs', qualitats:'Qualitats del so', oida:'Educació de l\'oïda', instruments:'Instruments', figures:'Figures musicals', pentagrama:'El pentagrama', compas:'El compàs', cancons:'Cançons', tempo:'Tempo i dinàmica', cultura:'Cultura musical', compositors:'Compositors'};
+  const TYPE_LABELS = {suma:'Sumes', resta:'Restes', incognita:'Troba el número', dobles:'Dobles i meitats', compara:'Comparar', sequencia:'Seqüències', geometria:'Formes', rellotge:'Rellotge', comptar:'Comptar', colors:'Colors', mida:'Gran i petit', ordenar:'Ordenar nombres', problema:'Problemes', monedes:'Monedes', reconeixer:'Busca el número', multiplicacio:'Multiplicar', divisio:'Dividir', fraccions:'Fraccions', decimals:'Decimals', percentatge:'Percentatges', mesura:'Mesures', parell:'Parells i senars', operacions:'Operacions combinades', mitjana:'Mitjana', proporcio:'Proporcions', temperatura:'Temperatura', angles:'Angles', perimetre:'Perímetre i àrea', multiples:'Múltiples i divisors', diferent:'Quin és diferent', daus:'El dau', llargada:'Llarg i curt', posicio:'On és', igual:'Quin és igual', descomposicio:'Desenes i unitats', grafic:'Gràfics', calendari:'El calendari', simetria:'Simetria', cossos:'Cossos geomètrics', arrodonir:'Arrodonir', probabilitat:'Atzar i probabilitat', volum:'Volum', potencies:'Potències i arrels', estadistica:'Estadística', lletres:'Les lletres', sillabes:'Síl·labes', rimes:'Rimes', lectura:'Lectura', gramatica:'Gramàtica', frases:'Ordenar frases', intrus:'L\'intrús', sinonims:'Sinònims', antonims:'Contraris', ortografia:'Ortografia', alfabet:'Ordre alfabètic', accents:'Accentuació', frasesfetes:'Frases fetes', verbs:'Els verbs', qualitats:'Qualitats del so', oida:'Educació de l\'oïda', instruments:'Instruments', figures:'Figures musicals', pentagrama:'El pentagrama', compas:'El compàs', cancons:'Cançons', tempo:'Tempo i dinàmica', cultura:'Cultura musical', compositors:'Compositors'};
 
   function rand(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
   function pick(arr){ return arr[rand(0,arr.length-1)]; }
@@ -2514,6 +2514,552 @@
     };
   }
 
+  // ---------- MATES: REPTES DE VARIETAT ----------
+  // Reptes afegits perquè un bloc de 10 no s'assembli mai al següent. Cadascun
+  // respecta el sostre del curs on s'endolla (vegeu el mapa GENS).
+
+  // Infantil: on és l'objecte (dins/fora, a dalt/a baix)
+  function genPosicioF(){
+    return function(){
+      const emoji = pick(OBJECT_EMOJIS);
+      const dinsFora = Math.random()<0.5;
+      if(dinsFora){
+        const aDins = Math.random()<0.5;
+        const caixa = `<div style="display:inline-block;border:5px dashed #b39ddb;border-radius:20px;padding:16px 30px;font-size:2.6rem;min-width:90px;min-height:70px;">${aDins?emoji:'&nbsp;'}</div>`;
+        const fora = aDins ? '' : `<span style="font-size:2.6rem;margin-left:14px;">${emoji}</span>`;
+        return { type:'posicio', label:'On és? 📦',
+          question:`El dibuix, és a dins o a fora de la caixa?`,
+          visualHTML:`<div class="visual-row">${caixa}${fora}</div>`,
+          options: shuffle(['a dins','a fora']),
+          answer: aDins ? 'a dins' : 'a fora' };
+      }
+      const aDalt = Math.random()<0.5;
+      const fila = (ple)=>`<div style="font-size:2.4rem;min-height:52px;">${ple?emoji:'&nbsp;'}</div>`;
+      return { type:'posicio', label:'On és? ⬆️',
+        question:'El dibuix, és a dalt o a baix de la prestatgeria?',
+        visualHTML:`<div class="visual-row"><div style="border:5px solid #b39ddb;border-radius:16px;padding:8px 26px;">
+            ${fila(aDalt)}<div style="height:4px;background:#b39ddb;border-radius:4px;"></div>${fila(!aDalt)}
+          </div></div>`,
+        options: shuffle(['a dalt','a baix']),
+        answer: aDalt ? 'a dalt' : 'a baix' };
+    };
+  }
+
+  // Infantil: quin és igual que el model
+  function genIgualF(nOpts){
+    return function(){
+      const [model, ...altres] = shuffle(OBJECT_EMOJIS).slice(0, nOpts+1);
+      return { type:'igual', label:'Quin és igual? 👀',
+        question:'Quin dibuix és igual que aquest?',
+        visualHTML:`<div class="visual-row"><span style="font-size:3.4rem;">${model}</span></div>`,
+        options: shuffle([model, ...altres.slice(0, nOpts-1)]),
+        answer: model };
+    };
+  }
+
+  // Infantil: toca'ls tots (format de tria múltiple)
+  function genTocaTotsF(maxs){
+    return function(){
+      const [bo, dolent] = shuffle(OBJECT_EMOJIS).slice(0,2);
+      const quants = rand(2, lvl(maxs));
+      const altres = rand(2, 4);
+      const items = shuffle([...Array(quants).fill(bo), ...Array(altres).fill(dolent)]);
+      const nom = emojiName(bo);
+      const totes = FEMENINS_PLURAL.includes(nom) ? 'totes les' : 'tots els';
+      return { type:'comptar', label:'Toca\'ls tots! 👆',
+        format:'multi', items,
+        question:`Toca ${totes} ${nom}`,
+        visualHTML:`<div class="visual-row"><span style="font-size:3rem;">${bo}</span></div>`,
+        answer: clauMulti(Array(quants).fill(bo)),
+        answerText: `${quants} ${nom}` };
+    };
+  }
+
+  // Infantil: ordena els grups de menys a més (format d'ordenar)
+  function genOrdenaQuantitatF(maxs, quants){
+    return function(){
+      const emoji = pick(OBJECT_EMOJIS);
+      const max = lvl(maxs);
+      const nums = shuffle(Array.from({length:max}, (_,i)=>i+1)).slice(0, quants).sort((a,b)=>a-b);
+      const items = nums.map(n=>emoji.repeat(n));
+      return { type:'ordenar', label:'De menys a més 📊',
+        format:'ordena', items, pista:'Toca primer el grup que en té menys',
+        question:'Ordena els grups: primer el que en té menys i al final el que en té més',
+        visualHTML:'',
+        answer: items.join(' '),
+        answerText: nums.join(', ') };
+    };
+  }
+
+  // "del 24" però "de l'11": l'u i l'onze comencen amb so de vocal
+  function delNombre(n){ return (n===1 || n===11) ? `de l'${n}` : `del ${n}`; }
+
+  // Quin nombre va just abans o just després
+  function genAbansDespresF(maxs){
+    return function(){
+      const max = lvl(maxs);
+      const despres = Math.random()<0.5;
+      const n = rand(despres ? 1 : 2, despres ? max-1 : max);
+      const answer = despres ? n+1 : n-1;
+      return { type:'sequencia', label:'Abans i després 🔢',
+        question: despres ? `Quin nombre va just DESPRÉS ${delNombre(n)}?` : `Quin nombre va just ABANS ${delNombre(n)}?`,
+        visualHTML:`<div class="visual-row">
+            <span class="num-card">${despres ? n : '?'}</span>
+            <span class="op-symbol">→</span>
+            <span class="num-card">${despres ? '?' : n}</span>
+          </div>`,
+        options: uniqueOptions(answer, Math.max(0,answer-3), answer+3, 4),
+        answer };
+    };
+  }
+
+  // Sumar els punts de dos daus
+  function genSumaDauF(maxs){
+    return function(){
+      const max = lvl(maxs);
+      const a = rand(1, Math.min(6,max-1));
+      const b = rand(1, Math.min(6, max-a));
+      const answer = a+b;
+      return { type:'suma', label:'Els daus sumen ➕',
+        question:'Quants punts sumen els dos daus?',
+        visualHTML:`<div class="visual-row">${dauHTML(a)}<span class="op-symbol">+</span>${dauHTML(b)}</div>`,
+        options: uniqueOptions(answer, Math.max(1,answer-3), answer+3, 3),
+        answer };
+    };
+  }
+
+  // Composició: quants en falten per arribar al total
+  function genComposicioF(maxs){
+    return function(){
+      const total = rand(3, lvl(maxs));
+      const a = rand(1, total-1);
+      const answer = total - a;
+      const emoji = pick(OBJECT_EMOJIS);
+      return { type:'suma', label:'Quants en falten? 🧩',
+        question:`Volem ${total} en total i ja en tenim ${a}. Quants en falten?`,
+        visualHTML:`<div class="visual-row">
+            <div class="group">${emoji.repeat(a)}</div>
+            <span class="op-symbol">+ ?</span>
+            <span class="num-card">${total}</span>
+          </div>`,
+        options: uniqueOptions(answer, Math.max(1,answer-2), answer+3, 3),
+        answer };
+    };
+  }
+
+  // Ordenar nombres tocant-los en ordre (format d'ordenar)
+  function genOrdenaNumF(maxs, quants){
+    return function(){
+      const max = lvl(maxs);
+      const nums = new Set();
+      while(nums.size<quants) nums.add(rand(0,max));
+      const ordenats = Array.from(nums).sort((a,b)=>a-b).map(String);
+      return { type:'ordenar', label:'Ordena els nombres 🔢',
+        format:'ordena', items: ordenats, pista:'Toca primer el més petit',
+        question:'Ordena els nombres de més petit a més gran',
+        visualHTML:'',
+        answer: ordenats.join(' ') };
+    };
+  }
+
+  // 1r: descomposició en desenes i unitats (11-20 al nivell 1)
+  function genDescomposicioF(maxs){
+    return function(){
+      const n = rand(11, lvl(maxs));
+      const desenes = Math.floor(n/10);
+      const unitats = n%10;
+      const preguntaUnitats = Math.random()<0.5;
+      const answer = preguntaUnitats ? unitats : desenes;
+      return { type:'descomposicio', label:'Desenes i unitats 🔟',
+        question: preguntaUnitats
+          ? `El ${n} té ${desenes} ${desenes===1?'desena':'desenes'} i quantes unitats?`
+          : `El ${n} té ${unitats} ${unitats===1?'unitat':'unitats'} i quantes desenes?`,
+        visualHTML: placeValueHTML(n),
+        options: uniqueOptions(answer, 0, 9, 4),
+        answer };
+    };
+  }
+
+  // Operació amb teclat numèric: la resposta no es tria, s'escriu
+  function genOpTeclatF(ops, maxs){
+    return function(){
+      const op = lvl(ops);
+      const max = lvl(maxs);
+      let a, b, answer, signe, tipus;
+      if(op==='suma'){
+        a = rand(2, max); b = rand(1, Math.max(1, max-a)); answer = a+b; signe = '+'; tipus = 'suma';
+      } else if(op==='resta'){
+        a = rand(3, max); b = rand(1, a-1); answer = a-b; signe = '−'; tipus = 'resta';
+      } else if(op==='multiplicacio'){
+        a = rand(2, 9); b = rand(2, Math.min(9, Math.max(2, Math.floor(max/9)))); answer = a*b; signe = '×'; tipus = 'multiplicacio';
+      } else {
+        b = rand(2, 9); answer = rand(2, 9); a = b*answer; signe = ':'; tipus = 'divisio';
+      }
+      return { type:tipus, label:'Escriu el resultat ⌨️',
+        format:'teclat',
+        question:`Quant fa ${a} ${signe} ${b}?`,
+        visualHTML:`<div class="visual-row"><span class="num-gran">${a} ${signe} ${b}</span></div>`,
+        answer: String(answer) };
+    };
+  }
+
+  // Gràfic de pictogrames: llegir-hi dades
+  function genGraficBarresF(modes){
+    return function(){
+      const mode = lvl(modes);
+      const emojis = shuffle(OBJECT_EMOJIS).slice(0,3);
+      const valors = emojis.map(()=>rand(1,9));
+      // que no hi hagi empat al màxim, si no la pregunta no tindria una sola resposta
+      while(valors.filter(v=>v===Math.max(...valors)).length>1) valors[rand(0,2)] = rand(1,9);
+      const files = emojis.map((e,i)=>
+        `<div style="display:flex;align-items:center;gap:10px;margin:4px 0;">
+           <span style="font-size:1.7rem;">${e}</span>
+           <span style="font-size:1.7rem;letter-spacing:2px;">${e.repeat(valors[i])}</span>
+           <span style="font-weight:bold;color:#5b4bc4;">${valors[i]}</span>
+         </div>`).join('');
+      const visualHTML = `<div class="visual-row"><div style="display:block;">${files}</div></div>`;
+      const iMax = valors.indexOf(Math.max(...valors));
+      if(mode==='mes'){
+        return { type:'grafic', label:'Llegim el gràfic 📊',
+          question:'De quin dibuix n\'hi ha més?',
+          visualHTML,
+          options: shuffle(emojis),
+          answer: emojis[iMax] };
+      }
+      if(mode==='total'){
+        const answer = valors.reduce((s,v)=>s+v,0);
+        return { type:'grafic', label:'Llegim el gràfic 📊',
+          question:'Quants dibuixos hi ha en total?',
+          visualHTML,
+          options: uniqueOptions(answer, Math.max(1,answer-4), answer+4, 4),
+          answer };
+      }
+      const i1 = iMax;
+      let i2 = (iMax+1)%3;
+      if(valors[i1]===valors[i2]) i2 = (iMax+2)%3;
+      const answer = valors[i1]-valors[i2];
+      const nom1 = emojiName(emojis[i1]);
+      const quants = FEMENINS_PLURAL.includes(nom1) ? 'Quantes' : 'Quants';
+      return { type:'grafic', label:'Llegim el gràfic 📊',
+        question:`${quants} ${nom1} hi ha més que ${emojiName(emojis[i2])}?`,
+        visualHTML,
+        options: uniqueOptions(answer, Math.max(0,answer-3), answer+3, 4),
+        answer };
+    };
+  }
+
+  // Toca tots els múltiples / divisors (format de tria múltiple)
+  function genTocaMultiplesF(bases){
+    return function(){
+      const base = lvl(bases);
+      const bons = [];
+      while(bons.length<3){
+        const m = base*rand(1,10);
+        if(!bons.includes(m)) bons.push(m);
+      }
+      const dolents = [];
+      while(dolents.length<3){
+        const n = rand(2, base*10);
+        if(n%base!==0 && !dolents.includes(n)) dolents.push(n);
+      }
+      const items = shuffle([...bons, ...dolents]).map(String);
+      return { type:'multiples', label:'Toca els múltiples ✖️',
+        format:'multi', items,
+        question:`Toca tots els múltiples de ${base}`,
+        visualHTML:'',
+        answer: clauMulti(bons.map(String)),
+        answerText: bons.slice().sort((a,b)=>a-b).join(', ') };
+    };
+  }
+
+  function genTocaDivisorsF(){
+    return function(){
+      const n = pick([12,18,20,24,30,36,40,48]);
+      const divisors = [];
+      for(let d=2; d<n; d++) if(n%d===0) divisors.push(d);
+      const bons = shuffle(divisors).slice(0,3);
+      const dolents = [];
+      while(dolents.length<3){
+        const d = rand(2, n-1);
+        if(n%d!==0 && !dolents.includes(d)) dolents.push(d);
+      }
+      const items = shuffle([...bons, ...dolents]).map(String);
+      return { type:'multiples', label:'Toca els divisors ➗',
+        format:'multi', items,
+        question:`Toca tots els nombres que són divisors de ${n}`,
+        visualHTML:`<div class="visual-row"><span class="num-gran">${n}</span></div>`,
+        answer: clauMulti(bons.map(String)),
+        answerText: bons.slice().sort((a,b)=>a-b).join(', ') };
+    };
+  }
+
+  // 2n: el calendari
+  const DIES_SETMANA = ['dilluns','dimarts','dimecres','dijous','divendres','dissabte','diumenge'];
+  const MESOS_ANY = ['gener','febrer','març','abril','maig','juny','juliol','agost','setembre','octubre','novembre','desembre'];
+  function genCalendariF(){
+    return function(){
+      const tirada = rand(1,4);
+      if(tirada===1 || tirada===2){
+        const dies = tirada===1;
+        const llista = dies ? DIES_SETMANA : MESOS_ANY;
+        const despres = Math.random()<0.5;
+        const i = rand(despres ? 0 : 1, despres ? llista.length-2 : llista.length-1);
+        const answer = llista[despres ? i+1 : i-1];
+        return { type:'calendari', label:'El calendari 📅',
+          question: `Quin ${dies?'dia':'mes'} ve just ${despres?'després':'abans'} de ${llista[i]}?`,
+          visualHTML:`<div class="visual-row"><span class="num-card">${llista[i]}</span></div>`,
+          options: shuffle([answer, ...shuffle(llista.filter(x=>x!==answer && x!==llista[i])).slice(0,3)]),
+          answer };
+      }
+      if(tirada===3){
+        return { type:'calendari', label:'El calendari 📅',
+          question:'Quants dies té una setmana?',
+          visualHTML:`<div class="visual-row"><span style="font-size:2.6rem;">📅</span></div>`,
+          options: shuffle([7, 5, 12, 30]),
+          answer: 7 };
+      }
+      return { type:'calendari', label:'El calendari 📅',
+        question:'Quants mesos té un any?',
+        visualHTML:`<div class="visual-row"><span style="font-size:2.6rem;">🗓️</span></div>`,
+        options: shuffle([12, 7, 24, 10]),
+        answer: 12 };
+    };
+  }
+
+  // 3r: simetria (lletres que es poden doblegar per la meitat)
+  const LLETRES_SIMETRIQUES = ['A','H','M','T','O','X','U','V','W','Y'];
+  const LLETRES_NO_SIMETRIQUES = ['F','G','J','L','P','R','S','N','Z','Q','B','E'];
+  function genSimetriaF(){
+    return function(){
+      const buscaSimetrica = Math.random()<0.5;
+      const answer = pick(buscaSimetrica ? LLETRES_SIMETRIQUES : LLETRES_NO_SIMETRIQUES);
+      const altres = shuffle(buscaSimetrica ? LLETRES_NO_SIMETRIQUES : LLETRES_SIMETRIQUES).slice(0,3);
+      return { type:'simetria', label:'Simetria 🪞',
+        question: buscaSimetrica
+          ? 'Quina lletra té un eix de simetria vertical? (si la dobleguem pel mig, les dues meitats encaixen)'
+          : 'Quina lletra NO té cap eix de simetria vertical?',
+        visualHTML:'<div class="visual-row"><span style="font-size:2.4rem;">🪞</span></div>',
+        options: shuffle([answer, ...altres]),
+        answer };
+    };
+  }
+
+  // 3r: quina hora serà (rellotge digital)
+  function genTempsTranscorregutF(minuts){
+    return function(){
+      const dur = pick(lvl(minuts));
+      const h = rand(1,11);
+      const m = pick([0,15,30,45]);
+      const total = h*60 + m + dur;
+      const fmt = (t)=>`${Math.floor(t/60)}:${String(t%60).padStart(2,'0')}`;
+      const answer = fmt(total);
+      return { type:'rellotge', label:'Quanta estona? ⏳',
+        question:`Una activitat comença ${h===1?'a la':'a les'} ${fmt(h*60+m)} i dura ${dur} minuts. A quina hora s'acaba?`,
+        visualHTML:`<div class="visual-row"><span class="num-card">${fmt(h*60+m)}</span><span class="op-symbol">+ ${dur} min</span></div>`,
+        options: opcionsText(answer, ()=> fmt(h*60 + m + pick([15,30,45,60,90,120]) + rand(-1,1)*5), 4),
+        answer };
+    };
+  }
+
+  // 4t: cossos geomètrics
+  const COSSOS = [
+    {nom:'el cub', emoji:'🎲', pista:'Té 6 cares quadrades iguals', cares:6},
+    {nom:'l\'esfera', emoji:'⚽', pista:'No té cap cara plana ni cap aresta', cares:0},
+    {nom:'el cilindre', emoji:'🥫', pista:'Té dues cares rodones i planes', cares:2},
+    {nom:'el con', emoji:'🍦', pista:'Té una punta i una cara rodona', cares:1},
+    {nom:'la piràmide', emoji:'⛺', pista:'Té una base i les cares laterals acaben en punta', cares:5},
+  ];
+  function genCosGeometricF(){
+    return function(){
+      const cos = pick(COSSOS);
+      const altres = shuffle(COSSOS.filter(c=>c.nom!==cos.nom)).slice(0,3).map(c=>c.nom);
+      if(Math.random()<0.5){
+        return { type:'cossos', label:'Cossos geomètrics 🧊',
+          question:`Quin cos geomètric té aquesta forma?`,
+          visualHTML:`<div class="visual-row"><span style="font-size:3.4rem;">${cos.emoji}</span></div>`,
+          options: shuffle([cos.nom, ...altres]),
+          answer: cos.nom };
+      }
+      return { type:'cossos', label:'Cossos geomètrics 🧊',
+        question:`Quin cos geomètric és? ${cos.pista}.`,
+        visualHTML:'',
+        options: shuffle([cos.nom, ...altres]),
+        answer: cos.nom };
+    };
+  }
+
+  // 4t-5è: arrodonir
+  function genArrodonirF(modes){
+    return function(){
+      const mode = lvl(modes);
+      if(mode==='decimal'){
+        const n = rand(10,99)/10;
+        const answer = Math.round(n);
+        return { type:'arrodonir', label:'Arrodonim 🎯',
+          question:`Arrodoneix ${fmtDec(n,1)} a la unitat més propera`,
+          visualHTML:`<div class="visual-row"><span class="num-gran">${fmtDec(n,1)}</span></div>`,
+          options: uniqueOptions(answer, Math.max(0,answer-2), answer+2, 4),
+          answer };
+      }
+      const pas = mode==='centena' ? 100 : 10;
+      const n = mode==='centena' ? rand(120, 980) : rand(12, 98);
+      const answer = Math.round(n/pas)*pas;
+      return { type:'arrodonir', label:'Arrodonim 🎯',
+        question:`Arrodoneix ${n} a la ${mode==='centena'?'centena':'desena'} més propera`,
+        visualHTML:`<div class="visual-row"><span class="num-gran">${n}</span></div>`,
+        options: shuffle([answer, answer+pas, Math.max(0,answer-pas), answer+2*pas]),
+        answer };
+    };
+  }
+
+  // 5è: atzar i probabilitat
+  function genProbabilitatF(){
+    return function(){
+      const vermelles = rand(1,6);
+      const blaves = rand(1,6);
+      const bossa = `<div class="visual-row"><div class="group">${'🔴'.repeat(vermelles)}${'🔵'.repeat(blaves)}</div></div>`;
+      const tirada = rand(1,3);
+      if(tirada===1){
+        return { type:'probabilitat', label:'Atzar 🎲',
+          question:'Si traiem una bola sense mirar, què és treure una bola verda?',
+          visualHTML: bossa,
+          options: shuffle(['impossible','segur','possible']),
+          answer:'impossible' };
+      }
+      if(tirada===2){
+        return { type:'probabilitat', label:'Atzar 🎲',
+          question:'Si traiem una bola sense mirar, què és treure una bola vermella o blava?',
+          visualHTML: bossa,
+          options: shuffle(['segur','impossible','possible']),
+          answer:'segur' };
+      }
+      const mesProbable = vermelles===blaves ? null : (vermelles>blaves ? 'vermella' : 'blava');
+      if(mesProbable===null){
+        return { type:'probabilitat', label:'Atzar 🎲',
+          question:'Si traiem una bola sense mirar, quin color té més probabilitat de sortir?',
+          visualHTML: bossa,
+          options: shuffle(['tots dos igual','vermella','blava']),
+          answer:'tots dos igual' };
+      }
+      return { type:'probabilitat', label:'Atzar 🎲',
+        question:'Si traiem una bola sense mirar, quin color té més probabilitat de sortir?',
+        visualHTML: bossa,
+        options: shuffle(['vermella','blava','tots dos igual']),
+        answer: mesProbable };
+    };
+  }
+
+  // 5è: unitats de temps
+  function genUnitatsTempsF(){
+    return function(){
+      const casos = [
+        ()=>{ const h = rand(2,9); return {q:`Quants minuts són ${h} hores?`, a:h*60}; },
+        ()=>{ const m = rand(2,9); return {q:`Quants segons són ${m} minuts?`, a:m*60}; },
+        ()=>{ const d = rand(2,8); return {q:`Quantes hores són ${d} dies?`, a:d*24}; },
+        ()=>{ const s = rand(2,8); return {q:`Quants dies són ${s} setmanes?`, a:s*7}; },
+        ()=>{ const a = rand(2,6); return {q:`Quants mesos són ${a} anys?`, a:a*12}; },
+      ];
+      const {q, a:answer} = pick(casos)();
+      return { type:'mesura', label:'Unitats de temps ⏱️',
+        question: q,
+        visualHTML:'<div class="visual-row"><span style="font-size:2.4rem;">⏱️</span></div>',
+        options: uniqueOptions(answer, Math.max(1, Math.round(answer*0.5)), Math.round(answer*1.5), 4),
+        answer };
+    };
+  }
+
+  // 6è: volum del cub i de l'ortoedre
+  function genVolumF(){
+    return function(){
+      if(Math.random()<0.5){
+        const c = rand(2,9);
+        const answer = c*c*c;
+        return { type:'volum', label:'Volum 🧊',
+          question:`Un cub fa ${c} cm de costat. Quin volum té, en cm³?`,
+          visualHTML:`<div class="visual-row"><span style="font-size:3rem;">🧊</span><span class="num-card">${c} × ${c} × ${c}</span></div>`,
+          options: uniqueOptions(answer, Math.max(1,answer-40), answer+40, 4),
+          answer };
+      }
+      const a = rand(2,9), b = rand(2,9), c = rand(2,6);
+      const answer = a*b*c;
+      return { type:'volum', label:'Volum 📦',
+        question:`Una capsa fa ${a} cm de llarg, ${b} cm d'ample i ${c} cm d'alt. Quin volum té, en cm³?`,
+        visualHTML:`<div class="visual-row"><span style="font-size:3rem;">📦</span><span class="num-card">${a} × ${b} × ${c}</span></div>`,
+        options: uniqueOptions(answer, Math.max(1,answer-30), answer+30, 4),
+        answer };
+    };
+  }
+
+  // 6è: potències i arrels quadrades exactes
+  function genPotenciesF(){
+    return function(){
+      if(Math.random()<0.6){
+        const base = rand(2,12);
+        const exp = Math.random()<0.75 ? 2 : 3;
+        const answer = Math.pow(base, exp);
+        return { type:'potencies', label:'Potències 🔺',
+          question:`Quant fa ${base}${exp===2?'²':'³'}?`,
+          visualHTML:`<div class="visual-row"><span class="num-gran">${base}${exp===2?'²':'³'}</span></div>`,
+          options: uniqueOptions(answer, Math.max(1,answer-12), answer+12, 4),
+          answer };
+      }
+      const arrel = rand(2,12);
+      const answer = arrel;
+      return { type:'potencies', label:'Arrels quadrades √',
+        question:`Quina és l'arrel quadrada de ${arrel*arrel}?`,
+        visualHTML:`<div class="visual-row"><span class="num-gran">√${arrel*arrel}</span></div>`,
+        options: uniqueOptions(answer, Math.max(1,answer-4), answer+4, 4),
+        answer };
+    };
+  }
+
+  // 6è: moda i mediana
+  function genEstadisticaF(){
+    return function(){
+      const moda = Math.random()<0.5;
+      if(moda){
+        const valor = rand(1,10);
+        const dades = [valor, valor, valor];
+        while(dades.length<7){
+          const n = rand(1,10);
+          if(dades.filter(d=>d===n).length<2) dades.push(n);
+        }
+        const barrejades = shuffle(dades);
+        return { type:'estadistica', label:'La moda 📈',
+          question:`Quin és el valor que es repeteix més (la moda)? ${barrejades.join(', ')}`,
+          visualHTML:`<div class="visual-row"><span class="num-card">${barrejades.join('  ')}</span></div>`,
+          options: uniqueOptions(valor, 1, 10, 4),
+          answer: valor };
+      }
+      const dades = [];
+      while(dades.length<5){
+        const n = rand(1,20);
+        if(!dades.includes(n)) dades.push(n);
+      }
+      const ordenades = dades.slice().sort((a,b)=>a-b);
+      const answer = ordenades[2];
+      return { type:'estadistica', label:'La mediana 📈',
+        question:`Quina és la mediana d'aquestes dades? ${shuffle(dades).join(', ')}`,
+        visualHTML:`<div class="visual-row"><span class="num-card">${dades.join('  ')}</span></div>`,
+        options: shuffle(dades),
+        answer };
+    };
+  }
+
+  // 6è: escales i plànols
+  function genEscalaF(){
+    return function(){
+      const km = pick([2,5,10,20,50]);
+      const cm = rand(2,9);
+      const answer = km*cm;
+      return { type:'proporcio', label:'Escales i plànols 🗺️',
+        question:`En un mapa, 1 cm són ${km} km. Si dos pobles són a ${cm} cm, quants quilòmetres hi ha de debò?`,
+        visualHTML:`<div class="visual-row"><span style="font-size:2.4rem;">🗺️</span><span class="num-card">1 cm = ${km} km</span></div>`,
+        options: uniqueOptions(answer, Math.max(1, answer-3*km), answer+3*km, 4),
+        answer };
+    };
+  }
+
   // ---------- ÀREA DE LLETRES: BANCS DE PARAULES ----------
   // Curats a mà. Si s'hi afegeixen mots, revisar ortografia i síl·labes!
 
@@ -3609,6 +4155,10 @@
       genColorTocaF(3),
       genLlargCurtF(),
       genColorP, genBigSmallP, genShapeP, genPatternP,
+      genPosicioF(),
+      genIgualF(3),
+      genTocaTotsF([3,3,4]),
+      genOrdenaQuantitatF([4,5,6], 3),
     ],
     // I4 (4-5 anys): el conjunt "petits" original + reptes de varietat (2026-07-13)
     i4: [
@@ -3619,6 +4169,11 @@
       genDiferentF(3),
       genColorTocaF(3),
       genLlargCurtF(),
+      genPosicioF(),
+      genTocaTotsF([3,4,5]),
+      genOrdenaQuantitatF([5,6,8], 3),
+      genAbansDespresF([6,8,10]),
+      genSumaDauF([6,8,10]),
     ],
     i5: [
       genComptarF([10,15,20],3),
@@ -3634,9 +4189,22 @@
       genDiferentF(3),
       genColorTocaF(3),
       genLlargCurtF(),
+      genAbansDespresF([10,15,20]),
+      genComposicioF([6,8,10]),
+      genOrdenaNumF([10,15,20], 4),
+      genTocaTotsF([4,5,6]),
+      genSumaDauF([8,10,12]),
     ],
-    // 1r: el conjunt "grans" original, sense canvis (espec. a docs/prompt-original.md)
-    p1: [genAddition, genSubtraction, genMissingNumber, genDoubleHalf, genCompare, genSequence, genGeometry, genClock, genOrder, genWordProblem, genMoney],
+    // 1r: el conjunt "grans" original, sense tocar-lo (espec. a docs/prompt-original.md).
+    // Els reptes de sota només s'hi AFEGEIXEN, i tots són temari de 1r: nombres
+    // fins a 99, descomposició en desena i unitats d'11 a 20, i sumes i restes
+    // fins a 20 amb els mateixos rangs per nivell que genAddition.
+    p1: [genAddition, genSubtraction, genMissingNumber, genDoubleHalf, genCompare, genSequence, genGeometry, genClock, genOrder, genWordProblem, genMoney,
+      genDescomposicioF([15,20,20]),
+      genAbansDespresF([20,50,99]),
+      genOrdenaNumF([20,50,99], 4),
+      genOpTeclatF(['suma','suma','resta'], [10,15,20]),
+    ],
     p2: [
       genSumaGranF([50,99,200],[false,true,true]),
       genRestaGranF([50,99,200],[false,true,true]),
@@ -3649,6 +4217,10 @@
       genRellotgeF(['enpunt','mitja','mitja']),
       genDinersF(),
       genProblemaF([20,50,100],4),
+      genGraficBarresF(['mes','mes','total']),
+      genTocaMultiplesF([2,5,10]),
+      genOpTeclatF(['suma','resta','suma'], [50,99,200]),
+      genCalendariF(),
     ],
     p3: [
       genSumaGranF([200,500,999],[true,true,true]),
@@ -3663,6 +4235,10 @@
       genSeqNumF([[5,10],[10,25],[25,50,100]],[100,200,500],4),
       genProblemaF([100,200,500],4),
       genProblema2F([20,30,45]),
+      genSimetriaF(),
+      genTempsTranscorregutF([[15,30],[15,30,45],[30,45,60,90]]),
+      genGraficBarresF(['total','diferencia','diferencia']),
+      genOpTeclatF(['suma','resta','multiplicacio'], [200,500,999]),
     ],
     p4: [
       genSumaGranF([999,5000,9999],[true,true,true]),
@@ -3677,6 +4253,10 @@
       genMesuraF([[0,2],[0,2,3],[1,2,3,4]]),
       genComparaNumF([9999,50000,99999]),
       genProblema2F([30,45,45]),
+      genCosGeometricF(),
+      genArrodonirF(['desena','desena','centena']),
+      genOpTeclatF(['multiplicacio','divisio','divisio'], [999,5000,9999]),
+      genTocaMultiplesF([3,4,6]),
     ],
     p5: [
       genDecimalsF(['comparar','sumar','restar'],2),
@@ -3690,6 +4270,10 @@
       genDivF([true,true,true]),
       genComparaNumF([99999,500000,999999]),
       genProblema2F([45,45,45]),
+      genProbabilitatF(),
+      genArrodonirF(['centena','decimal','decimal']),
+      genUnitatsTempsF(),
+      genTocaDivisorsF(),
     ],
     p6: [
       genOpsCombF(2),
@@ -3702,6 +4286,10 @@
       genMultiplesDivisorsF(),
       genPerimetreAreaF(['area','areaTriangle','areaTriangle']),
       genProblema2F([45,45,45]),
+      genVolumF(),
+      genPotenciesF(),
+      genEstadisticaF(),
+      genEscalaF(),
     ],
   };
 
