@@ -11,7 +11,10 @@ l'usuari (una acabant Infantil-3 i l'altra acabant 1r de Primària) i des del
 Primària — amb l'itinerari de continguts corresponent (vegeu el punt 2). Des del
 2026-07-14 hi ha **tres àrees**: Números 🔢 (matemàtiques), Lletres 📚 (llengua
 catalana, punt 12) i Música 🎵 (punt 13); es trien en una pantalla després del
-perfil, i cada àrea té el seu nivell adaptatiu.
+perfil, i cada àrea té el seu nivell adaptatiu. El 2026-07-26, arran de la
+queixa que hi havia poca varietat, s'hi van afegir **91 reptes nous** (33 de
+mates, 30 de lletres i 28 de música), **tres formats de resposta** més enllà de
+triar una opció (punt 14) i bancs de dades molt més grans.
 
 Tot el joc viu en un únic fitxer estàtic: **`index.html`** (HTML + CSS + JS vanilla, sense
 frameworks ni backend). Funciona obrint el fitxer directament al navegador.
@@ -31,18 +34,28 @@ El joc ja té implementat:
    nivell adaptatiu com a paràmetres). Resum:
    - **I3**: comptar i buscar números fins a 3/4/5, on n'hi ha més, colors, formes
      bàsiques, gran/petit, patrons, quin és diferent, toca el color, el dau
-     (subitització) i trens llarg/curt. 2-3 opcions de resposta.
+     (subitització) i trens llarg/curt. 2-3 opcions de resposta. Des del
+     2026-07-26: on és (dins/fora i a dalt/a baix), quin és igual, toca'ls tots i
+     ordena els grups de menys a més.
    - **I4**: el conjunt "petits" original (comptar fins a 10, sumes/restes visuals
      petites, formes, colors, patrons, gran/petit, busca el número, problemes ≤10)
      més els reptes de varietat afegits el 2026-07-13: quin és diferent, toca el
-     color, el dau i trens llarg/curt. 2-3 opcions.
+     color, el dau i trens llarg/curt. 2-3 opcions. Des del 2026-07-26: on és,
+     toca'ls tots, ordenar grups, el nombre d'abans i el de després (≤10) i sumar
+     els punts de dos daus.
    - **I5**: comptar fins a 20 (també amb distractors barrejats), sumes/restes
      visuals ≤10, ordenar 3 nombres ≤10, seqüències +1, busca el número fins a 15,
-     més quin és diferent, toca el color, el dau i trens llarg/curt.
+     més quin és diferent, toca el color, el dau i trens llarg/curt. Des del
+     2026-07-26: abans i després (≤20), quants en falten per arribar al total,
+     ordenar 4 nombres tocant-los, toca'ls tots i els dos daus.
    - **1r (`p1`)**: el conjunt "grans" original, **INTACTE** (especificació exacta
      a `docs/prompt-original.md`): sumes/restes ≤20 sense portar, incògnita,
      dobles/meitats, comparar ≤99, seqüències, geometria, rellotge en punt,
-     ordenar, problemes d'un pas, monedes senceres.
+     ordenar, problemes d'un pas, monedes senceres. El 2026-07-26 s'hi van
+     **afegir** (sense tocar cap dels anteriors) quatre reptes que ja eren al
+     temari de 1r: descomposició en desenes i unitats d'11 a 20 (hi faltava),
+     abans i després fins a 99, ordenar nombres tocant-los i sumes/restes amb
+     teclat numèric, amb els mateixos rangs per nivell que `genAddition`.
    - **2n**: sumes/restes fins a 200 (sense portar al nivell 1, portant després),
      taules del 2/5/10, dobles/meitats ≤50, parells i senars, comparar/ordenar
      ≤999, seqüències de 2/5/10 en 10, rellotge en punt i la mitja en notació
@@ -50,21 +63,30 @@ El joc ja té implementat:
      mitja"), diners amb bitllets i moneda de 50 cèntims. Les hores en punt es
      construeixen amb `enPunt(h)`, que posa l'article en singular a la una
      ("La 1 en punt"); les mitges, amb `dosQuartsDe(h)`, que apostrofa davant
-     de vocal ("Dos quarts d'una", "Dos quarts d'onze").
+     de vocal ("Dos quarts d'una", "Dos quarts d'onze"). Des del 2026-07-26:
+     gràfics de pictogrames, toca els múltiples de 2/5/10, operacions amb teclat
+     i el calendari (dies de la setmana i mesos).
    - **3r**: sumes/restes ≤999 portant, totes les taules, divisió exacta,
      fraccions (identificar i fracció de quantitat), rellotge digital (quarts i de
      5 en 5 minuts), mesures (m/cm/km/mm), perímetre, problemes de dos passos.
+     Des del 2026-07-26: simetria (eix vertical, amb lletres), quanta estona
+     passa, gràfics amb diferències i operacions amb teclat.
    - **4t**: nombres ≤99.999, multiplicació per una xifra amb factors de 2 xifres,
      divisió amb residu, fraccions (comparar i equivalents), decimals amb dècims,
      angles (recte/agut/obtús), àrea del rectangle, mesures (kg/g, l/ml, h/min).
+     Des del 2026-07-26: cossos geomètrics (cub, esfera, cilindre, con,
+     piràmide), arrodonir a la desena i a la centena, divisions amb teclat i
+     toca els múltiples.
    - **5è**: decimals amb centèsims (comparar/sumar/restar), fraccions (suma amb
      el mateix denominador, de quantitats), múltiples i divisors, percentatges
      (50/25/10/20), operacions combinades (prioritat), mitjana, àrea del rectangle
-     i del triangle.
+     i del triangle. Des del 2026-07-26: atzar i probabilitat (segur / possible /
+     impossible), arrodonir decimals, unitats de temps i toca els divisors.
    - **6è**: operacions combinades amb parèntesis, decimals ×10/×100 i per enter,
      fraccions amb denominadors diferents senzills, percentatges amb descomptes,
      proporcionalitat, mitjana, temperatures (enters en context), múltiples i
-     divisors, àrees.
+     divisors, àrees. Des del 2026-07-26: volum del cub i de l'ortoedre,
+     potències i arrels quadrades exactes, moda i mediana, i escales de plànol.
 3. **Dificultat adaptativa** (3 nivells dins de cada curs): puja/baixa sola segons
    encerts, errors i velocitat de resposta. Els llindars de temps depenen de
    l'etapa del curs (`TEMPS_ETAPA`: infantil / cicle inicial / mitjà / superior —
@@ -108,27 +130,42 @@ El joc ja té implementat:
     Ludilletres a Infantil i currículum de català a Primària (mapa
     `GENS_LLETRES`):
     - **I3**: vocals (buscar, aparellar maj/min), primera lletra de paraules que
-      comencen amb vocal, síl·labes picant de mans (1-2).
+      comencen amb vocal, síl·labes picant de mans (1-2). +2026-07-26: quina
+      paraula comença igual, amb quina lletra acaba, toca totes les lletres.
     - **I4**: consonants en progressió Ludilletres (P M L S T N), síl·labes,
-      primera lletra, rimes.
+      primera lletra, rimes. +2026-07-26: comencen igual, toca la lletra i
+      formar la paraula ordenant-ne les lletres.
     - **I5**: tot l'abecedari (al nivell 3, sense mostrar la lletra: cal
       reconèixer-la pel nom), majúscula/minúscula, síl·labes, rimes, primeres
-      lectures de mots.
+      lectures de mots. +2026-07-26: formar la paraula, comptar les paraules
+      d'una frase, toca els mots de tantes síl·labes i l'última lletra.
     - **1r**: llegir el mot, la lletra amagada (P_MA), síl·labes, rimes,
-      article el/la, singular/plural.
+      article el/la, singular/plural. +2026-07-26: formar la paraula, masculí o
+      femení, ordenar la frase tocant paraula per paraula i comptar paraules.
     - **2n**: ordenar frases curtes, ordre alfabètic, l'intrús, ortografia
-      ca-que-qui/ga-gue-gui.
+      ca-que-qui/ga-gue-gui. +2026-07-26: ordenar la frase tocant, quin signe de
+      puntuació falta, comptar paraules, toca els mots d'un camp i el gènere.
     - **3r**: sinònims i contraris, b/v i g/j, categoria gramatical
-      (nom/verb/adjectiu), ordre alfabètic, ordenar frases.
+      (nom/verb/adjectiu), ordre alfabètic, ordenar frases. +2026-07-26:
+      comprensió lectora, l'apòstrof (el/la/l'), famílies de paraules, ordenar
+      la frase tocant i la puntuació.
     - **4t**: temps verbals (passat/present/futur), s/ss/c/ç/z,
-      aguda/plana/esdrúixola, sinònims/contraris.
+      aguda/plana/esdrúixola, sinònims/contraris. +2026-07-26: comprensió
+      lectora, definicions, conjugar un verb i famílies de paraules.
     - **5è**: g/j, x/ix i l·l, accent gràfic, frases fetes, ordenar frases
-      llargues.
+      llargues. +2026-07-26: comprensió lectora amb textos llargs, definicions,
+      famílies de paraules i toca els mots ben escrits.
     - **6è**: h i dièresi, accentuació, frases fetes, temps verbals.
-    - **Bancs de paraules curats a mà** (`MOTS`, `RIMES`, `SINONIMS`,
-      `ANTONIMS`, `CAMPS`, `FRASES`, `ORTOGRAFIA`, `ACCENTS`, `FRASES_FETES`,
-      `VERBS_TEMPS`, `CATEGORIES`): si s'hi afegeixen entrades, revisar
-      ortografia, síl·labes i apostrofació a mà.
+      +2026-07-26: comprensió lectora llarga, conjugació, toca els ben escrits i
+      registre formal/informal.
+    - **Bancs de paraules curats a mà** (`MOTS` 99 mots, `RIMES` 31 grups,
+      `SINONIMS` 30, `ANTONIMS` 30, `CAMPS` 13, `FRASES` 42, `ORTOGRAFIA` ~110
+      parells en 6 regles, `ACCENTS` 45, `FRASES_FETES` 26, `VERBS_TEMPS` 24,
+      `CATEGORIES` 30, i els afegits el 2026-07-26: `COMPRENSIO`, `DEFINICIONS`,
+      `PUNTUACIO`, `FAMILIES`, `VERBS_CONJUGATS`, `REGISTRE`): si s'hi afegeixen
+      entrades, revisar ortografia, síl·labes i apostrofació a mà. A `RIMES`,
+      cada grup ha de tenir una terminació que no rimi amb la de cap altre grup:
+      si no, un distractor podria ser una rima igualment vàlida.
     - **Nivell adaptatiu per àrea**: `p.nivells = {mates, lletres}` amb migració
       automàtica dels perfils antics; l'historial guarda `area` a cada resposta
       i la zona de pares mostra els nivells i un gràfic d'evolució per àrea.
@@ -146,21 +183,64 @@ El joc ja té implementat:
       d'oïda no es pot resoldre.
     - **I3**: fort/fluix, llarg/curt, ràpid/lent, comptar notes (fins a 3),
       cançons populars catalanes (reconèixer-les per un vers, llegit amb TTS).
+      +2026-07-26: dos sons iguals o diferents, quin animal faria un so així
+      d'agut o de greu, i quin dels tres sons era el més agut.
     - **I4-I5**: + agut/greu, la melodia puja o baixa, més notes per comptar,
-      instruments bàsics (emoji).
+      instruments bàsics (emoji). +2026-07-26: iguals o diferents, l'animal,
+      el més agut, ritmes amb síl·labes rítmiques i ordenar sons de greu a agut.
     - **1r-2n**: comparar sons per qualsevol qualitat, figures negra/blanca
       (+rodona a 2n) amb les durades, famílies d'instruments (corda, vent,
       percussió; el piano queda fora del joc de famílies expressament).
+      +2026-07-26: dues melodies iguals o diferents, ritmes, ordenar sons i
+      tocar totes les figures que valen els mateixos temps.
     - **3r-4t**: pentagrama en clau de sol (SVG propi; 3r: do-sol, 4t: do-si),
       corxera, compassos 2/4-3/4-4/4, suma de temps de figures, la sardana i la
-      cobla.
+      cobla. +2026-07-26: quina nota falta a la sèrie, quina nota sona després
+      del do (referència d'altura), quin compàs sona pels accents i ordenar
+      figures de curta a llarga.
     - **5è-6è**: tempo italià (adagio/andante/allegro), dinàmiques (p, f,
       crescendo), pentagrama fluid (fins a mi5), la cobla al detall (tenora,
       tible, flabiol), compositors (Pau Casals, Mozart, Beethoven, Vivaldi).
-    - Bancs: `INSTRUMENTS`, `FIGURES` (SVG propi, res d'Unicode musical),
-      `CANCONS`, `TEMPO_DINAMIQUES`, `CULTURA_COBLA`, `COMPOSITORS`. Les notes
-      del pentagrama es dibuixen amb `pentagramaSVG(idx)` (índex diatònic 0=do4;
-      sol4 cau a la segona línia, com toca en clau de sol).
+      +2026-07-26: intervals (2a/3a/5a/8a), acord major o menor, escala afinada
+      o desafinada, i forma musical (tornada, estrofa, AABA, cànon).
+    - **Ritmes**: `PATRONS_RITME` fa servir les síl·labes rítmiques d'escola
+      (ta = negra, ta-a = blanca, ti-ti = dues corxeres).
+    - Bancs: `INSTRUMENTS` (13), `FIGURES` (SVG propi, res d'Unicode musical),
+      `CANCONS` (18 cançons populars catalanes), `TEMPO_DINAMIQUES` (17),
+      `CULTURA_COBLA` (12), `COMPOSITORS` (16), `FORMES_MUSICALS` i
+      `ANIMALS_SO`. Les notes del pentagrama es dibuixen amb `pentagramaSVG(idx)`
+      (índex diatònic 0=do4; sol4 cau a la segona línia, com toca en clau de
+      sol). Compte: `NOTES_NOMS` repeteix els noms a la segona octava, així que
+      els distractors de nom de nota s'han de deduplicar.
+
+14. **Formats de resposta** (2026-07-26): a més de triar un dels botons d'opció,
+    una ronda pot demanar un altre gest amb la clau `format`. Contracte:
+    | Clau | Ús |
+    |---|---|
+    | `format` | `'opcions'` (per defecte, i el que fan totes les rondes antigues) · `'multi'` · `'ordena'` · `'teclat'` |
+    | `items` | les peces amb què es juga (`multi` i `ordena`) |
+    | `answerText` | com es diu la resposta a la línia de feedback quan la clau interna no és llegible (p. ex. `"12\|24\|28"` → `"12, 24, 28"`) |
+    - `renderRound` despatxa amb `RENDER_FORMAT[r.format]`, i cada
+      renderitzador (`renderOpcions`, `renderMulti`, `renderOrdena`,
+      `renderTeclat`) acaba cridant `handleAnswer(valor, botóOCap)`: la
+      puntuació, els sons, l'historial i el nivell funcionen igual que sempre.
+    - `multi`: la clau de resposta és la llista de triades **ordenada** i unida
+      amb `|` (`clauMulti`), perquè no depengui de l'ordre dels tocs.
+    - `ordena`: la resposta són les peces en ordre unides amb un espai; per això
+      **cap item pot contenir espais**.
+    - `teclat`: el valor que s'envia és **text** (`'15'`), no un número: el
+      generador ha de posar `answer` com a string.
+    - Aquests formats **no compten per a la velocitat** que fa pujar o baixar de
+      nivell (`contaVelocitat` a `handleAnswer`): s'hi triga més per naturalesa i
+      falsejarien l'adaptació.
+15. **Tests** (2026-07-26): `test/generadors.test.js` amb vitest (`npm test`).
+    Extreu el `<script>` d'`index.html`, l'executa amb un DOM simulat i comprova,
+    per a totes les àrees × cursos × 3 nivells: que la resposta existeixi i sigui
+    a les opcions, que no hi hagi opcions duplicades ni `NaN`, que cada `type`
+    tingui etiqueta a `TYPE_LABELS`, els llindars de varietat (rondes diferents
+    per cada 1.000) i —simulant els tocs— que els tres formats nous es puguin
+    respondre de debò. Si es toca l'àncora `// init: carreguem perfils...`
+    d'`index.html`, el test ho detecta i falla amb un missatge clar.
 
 ## Restriccions pedagògiques (NO trencar)
 
@@ -177,9 +257,9 @@ El joc ja té implementat:
 
 1. ~~**[IMPORTANT] Reescriure la persistència amb `localStorage`**~~ ✅ Fet
    (2026-07-12), inclòs el botó "Reiniciar el progrés" al dashboard.
-2. **Afegir tests** dels generadors (que `answer` mai sigui null/undefined/NaN, que
-   `options` contingui sempre la correcta i no tingui duplicats, per als 3 nivells).
-   Per fer-ho bé, convindria separar la lògica de generació del DOM.
+2. ~~**Afegir tests** dels generadors~~ ✅ Fet (2026-07-26): `test/generadors.test.js`
+   amb vitest (`npm test`), vegeu el punt 15. No ha calgut separar la lògica del
+   DOM: el test extreu el `<script>` d'`index.html` i l'executa amb un DOM simulat.
 3. **(Opcional) Migrar a Vite + mòduls** separant: generadors, estat/dificultat,
    dashboard, TTS i UI. Mantenint EXACTAMENT els textos, rangs numèrics, colors i
    comportament actuals.
@@ -202,9 +282,16 @@ python3 -m http.server 8000
 # després obre http://localhost:8000 al navegador
 ```
 
+I abans de pujar res, passa els tests dels generadors (triguen ~1 minut):
+
+```bash
+npm test
+```
+
 ## Convencions
 
-- Un sol fitxer per ara (`index.html`). Si es modularitza, documentar-ho aquí.
+- Un sol fitxer per ara (`index.html`, ~5.950 línies després de l'ampliació del
+  2026-07-26), més `test/generadors.test.js`. Si es modularitza, documentar-ho aquí.
 - Codi i comentaris en català.
 - Prioritzar sempre la solució més senzilla, més visual i més adequada per a nenes de
   4-7 anys. Consultar abans de canviar contingut pedagògic, rangs, textos o colors.
