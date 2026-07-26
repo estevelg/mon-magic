@@ -247,6 +247,8 @@
     width:100%;
     max-width:420px;
   }
+  /* Els formats que no són botons d'opció es pinten en bloc, no en graella */
+  .options-grid.lliure{ display:block; }
   .option-btn{
     font-family:inherit;
     font-size:1.25rem;
@@ -611,6 +613,127 @@
     box-shadow:0 4px 0 #9a86d0;
   }
   .replay-btn:active{ transform:translateY(2px); box-shadow:0 1px 0 #9a86d0; }
+
+  /* ---- Formats de resposta alternatius (tocar-ne uns quants, ordenar, teclat) ---- */
+  /* Mateix llenguatge visual que .option-btn: blanc, vora gruixuda i ombra sòlida. */
+  .fitxes{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:10px;
+  }
+  .fitxa{
+    font-family:inherit;
+    font-size:1.3rem;
+    font-weight:bold;
+    padding:12px 16px;
+    min-width:56px;
+    border-radius:18px;
+    background:white;
+    border:3px solid #d7e3ff;
+    color:var(--text);
+    box-shadow:0 4px 0 #d7e3ff;
+    cursor:pointer;
+    transition:transform 0.1s ease, box-shadow 0.1s ease;
+  }
+  .fitxa:active{ transform:translateY(2px); box-shadow:0 1px 0 #d7e3ff; }
+  .fitxa.triada{
+    background:var(--groc);
+    border-color:#e6b93c;
+    box-shadow:0 4px 0 #e6b93c;
+  }
+  .fitxa.buida{ visibility:hidden; }
+  .fitxa:disabled{ cursor:default; }
+  .safata{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+    min-height:58px;
+    margin-bottom:12px;
+    padding:8px;
+    border-radius:18px;
+    border:3px dashed #d7e3ff;
+    background:#fbfdff;
+  }
+  .safata-buida{
+    font-size:0.95rem;
+    font-weight:bold;
+    color:#9aa8c7;
+  }
+  .safata .fitxa{
+    font-size:1.15rem;
+    padding:8px 12px;
+    min-width:0;
+    background:var(--blau);
+    border-color:#3aa8d8;
+    color:white;
+    box-shadow:0 3px 0 #3aa8d8;
+  }
+  .visor{
+    font-size:2.2rem;
+    font-weight:bold;
+    color:#5b4bc4;
+    background:white;
+    border:3px solid #d7e3ff;
+    border-radius:18px;
+    padding:6px 20px;
+    min-width:120px;
+    margin:0 auto 12px;
+    text-align:center;
+    letter-spacing:2px;
+  }
+  .teclat{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:8px;
+    max-width:260px;
+    margin:0 auto;
+  }
+  .tecla{
+    font-family:inherit;
+    font-size:1.4rem;
+    font-weight:bold;
+    padding:12px 0;
+    border-radius:16px;
+    background:white;
+    border:3px solid #d7e3ff;
+    color:var(--text);
+    box-shadow:0 4px 0 #d7e3ff;
+    cursor:pointer;
+  }
+  .tecla:active{ transform:translateY(2px); box-shadow:0 1px 0 #d7e3ff; }
+  .tecla:disabled{ cursor:default; }
+  .confirma-btn{
+    display:block;
+    margin:14px auto 0;
+    font-family:inherit;
+    font-size:1.1rem;
+    font-weight:bold;
+    padding:12px 26px;
+    border-radius:18px;
+    border:none;
+    background:var(--verd);
+    color:white;
+    cursor:pointer;
+    box-shadow:0 4px 0 #5cb586;
+  }
+  .confirma-btn:active{ transform:translateY(2px); box-shadow:0 1px 0 #5cb586; }
+  .confirma-btn:disabled{ background:#cfe3d8; box-shadow:0 4px 0 #b7d3c6; cursor:default; }
+  .desfes-btn{
+    display:block;
+    margin:10px auto 0;
+    font-family:inherit;
+    font-size:0.95rem;
+    font-weight:bold;
+    padding:8px 18px;
+    border-radius:16px;
+    border:3px solid #d7e3ff;
+    background:white;
+    color:var(--text);
+    cursor:pointer;
+  }
   .parent-curs{
     font-family:inherit;
     font-size:0.8rem;
@@ -842,7 +965,9 @@
   function slowMs(){ return TEMPS_ETAPA[etapaActiva()].lent; }
 
   const COLORS = ['#ff8fab','#4fc3f7','#ffd54f','#81d4a2','#b39ddb','#ff9e6d'];
-  const OBJECT_EMOJIS = ['🍎','⭐','🎈','🐟','🍓','🚗','🐝','🍪','🐸','🌸','🦆','🍌','⚽','🐢','🧸','🍩'];
+  const OBJECT_EMOJIS = ['🍎','⭐','🎈','🐟','🍓','🚗','🐝','🍪','🐸','🌸','🦆','🍌','⚽','🐢','🧸','🍩',
+                         '🍐','🍊','🍒','🐱','🐶','🐰','🦋','🐌','🐦','🌳','🚲','📚','🎁','🍄','🥕','🥚',
+                         '🐧','🐑','🍦','🔑'];
   const SHAPE_NAMES = {circle:'Cercle', square:'Quadrat', triangle:'Triangle', rectangle:'Rectangle', star:'Estrella'};
   const TYPE_LABELS = {suma:'Sumes', resta:'Restes', incognita:'Troba el número', dobles:'Dobles i meitats', compara:'Comparar', sequencia:'Seqüències', geometria:'Formes', rellotge:'Rellotge', comptar:'Comptar', colors:'Colors', mida:'Gran i petit', ordenar:'Ordenar nombres', problema:'Problemes', monedes:'Monedes', reconeixer:'Busca el número', multiplicacio:'Multiplicar', divisio:'Dividir', fraccions:'Fraccions', decimals:'Decimals', percentatge:'Percentatges', mesura:'Mesures', parell:'Parells i senars', operacions:'Operacions combinades', mitjana:'Mitjana', proporcio:'Proporcions', temperatura:'Temperatura', angles:'Angles', perimetre:'Perímetre i àrea', multiples:'Múltiples i divisors', diferent:'Quin és diferent', daus:'El dau', llargada:'Llarg i curt', lletres:'Les lletres', sillabes:'Síl·labes', rimes:'Rimes', lectura:'Lectura', gramatica:'Gramàtica', frases:'Ordenar frases', intrus:'L\'intrús', sinonims:'Sinònims', antonims:'Contraris', ortografia:'Ortografia', alfabet:'Ordre alfabètic', accents:'Accentuació', frasesfetes:'Frases fetes', verbs:'Els verbs', qualitats:'Qualitats del so', oida:'Educació de l\'oïda', instruments:'Instruments', figures:'Figures musicals', pentagrama:'El pentagrama', compas:'El compàs', cancons:'Cançons', tempo:'Tempo i dinàmica', cultura:'Cultura musical', compositors:'Compositors'};
 
@@ -981,9 +1106,21 @@
   }
 
   function emojiName(e){
-    const names = {'🍎':'pomes','⭐':'estrelles','🎈':'globus','🐟':'peixos','🍓':'maduixes','🚗':'cotxes','🐝':'abelles','🍪':'galetes','🐸':'granotes','🌸':'flors','🦆':'ànecs','🍌':'plàtans','⚽':'pilotes','🐢':'tortugues','🧸':'ossets','🍩':'dònuts'};
+    const names = {'🍎':'pomes','⭐':'estrelles','🎈':'globus','🐟':'peixos','🍓':'maduixes','🚗':'cotxes','🐝':'abelles','🍪':'galetes','🐸':'granotes','🌸':'flors','🦆':'ànecs','🍌':'plàtans','⚽':'pilotes','🐢':'tortugues','🧸':'ossets','🍩':'dònuts',
+      '🍐':'peres','🍊':'taronges','🍒':'cireres','🐱':'gats','🐶':'gossos','🐰':'conills','🦋':'papallones','🐌':'cargols','🐦':'ocells','🌳':'arbres','🚲':'bicicletes','📚':'llibres','🎁':'regals','🍄':'bolets','🥕':'pastanagues','🥚':'ous','🐧':'pingüins','🐑':'ovelles','🍦':'gelats','🔑':'claus'};
     return names[e] || 'coses';
   }
+
+  // Categoria de cada dibuix, per triar verbs que tinguin sentit als problemes:
+  // ningú no es menja un cotxe ni compra una papallona.
+  const CATEGORIA_EMOJI = {
+    '🍎':'menjar','🍓':'menjar','🍪':'menjar','🍌':'menjar','🍩':'menjar','🍐':'menjar',
+    '🍊':'menjar','🍒':'menjar','🍄':'menjar','🥕':'menjar','🥚':'menjar','🍦':'menjar',
+    '🐟':'animal','🐝':'animal','🐸':'animal','🦆':'animal','🐢':'animal','🐱':'animal',
+    '🐶':'animal','🐰':'animal','🦋':'animal','🐌':'animal','🐦':'animal','🐧':'animal','🐑':'animal',
+    '🌸':'planta','🌳':'planta',
+  };
+  function categoriaEmoji(e){ return CATEGORIA_EMOJI[e] || 'objecte'; }
 
   // Renders a number as coloured place-value digit boxes (blau = desenes/centenes, taronja = unitats)
   function placeValueHTML(n){
@@ -1446,23 +1583,61 @@
     };
   }
 
-  const NOMS_PROBLEMA = ['En Pau','La Júlia','En Biel','La Martina','L\'Aina','En Nil'];
+  const NOMS_PROBLEMA = ['En Pau','La Júlia','En Biel','La Martina','L\'Aina','En Nil',
+                         'La Berta','En Guim','L\'Ona','En Roc','La Mar','En Jordi',
+                         'La Laia','En Marc','La Nora','L\'Aran'];
   // emojiName retorna noms en plural; per fer la pregunta ben escrita cal saber el gènere
-  const FEMENINS_PLURAL = ['pomes','estrelles','maduixes','abelles','galetes','granotes','flors','pilotes','tortugues'];
+  const FEMENINS_PLURAL = ['pomes','estrelles','maduixes','abelles','galetes','granotes','flors','pilotes','tortugues',
+                           'peres','taronges','cireres','papallones','bicicletes','pastanagues','claus','ovelles'];
+
+  // On passa el problema: canviar l'escenari fa que dues preguntes amb els
+  // mateixos números no s'assemblin gens. Cada categoria té els seus llocs
+  // perquè no surtin coses rares com "a la granja, en Jordi té 17 gelats".
+  const LLOCS_PROBLEMA = {
+    menjar:  ['', '', 'Al mercat, ', 'A la festa d\'aniversari, ', 'A casa l\'àvia, ', 'A la platja, '],
+    animal:  ['', '', 'A la granja, ', 'Al parc, ', 'A l\'excursió, ', 'Al bosc, '],
+    planta:  ['', '', 'A l\'hort, ', 'Al jardí, ', 'A l\'excursió, '],
+    objecte: ['', '', 'Al pati de l\'escola, ', 'Al mercat, ', 'A la festa d\'aniversari, ', 'Al parc, '],
+  };
+  // Verbs que tenen sentit segons què s'està comptant
+  const ACCIONS_MES = {
+    menjar:  ['en compra','en troba','li\'n regalen','en cull'],
+    animal:  ['en troba','en veu','li\'n regalen','en rescata'],
+    planta:  ['en cull','en troba','en planta'],
+    objecte: ['en compra','en troba','li\'n regalen','en guanya'],
+  };
+  // Els verbs on el subjecte és allò que es compta han de concordar en nombre:
+  // "se n'escapa 1" però "se n'escapen 3".
+  const ACCIONS_MENYS = {
+    menjar:  ['se\'n menja','en dona','en regala','en reparteix'],
+    animal:  [{sg:'se n\'escapa', pl:'se n\'escapen'},'en dona','en deixa anar'],
+    planta:  ['en dona','en regala','en reparteix'],
+    objecte: ['en perd','en dona','en regala','en presta'],
+  };
+  function conjuga(accio, quantitat){
+    return typeof accio === 'string' ? accio : (quantitat===1 ? accio.sg : accio.pl);
+  }
+
+  // "En Pau" → "en Pau": quan el nom no obre la frase, l'article va en minúscula
+  function enMinuscula(nom){ return nom.charAt(0).toLowerCase() + nom.slice(1); }
 
   function makeWordProblem(maxSum, nOpcions){
     const qui = pick(NOMS_PROBLEMA);
     const emoji = pick(OBJECT_EMOJIS);
     const nom = emojiName(emoji);
+    const cat = categoriaEmoji(emoji);
+    const lloc = pick(LLOCS_PROBLEMA[cat]);
     const quants = FEMENINS_PLURAL.includes(nom) ? 'Quantes' : 'Quants';
     const esSuma = Math.random()<0.5;
     let question, answer, visual;
     if(esSuma){
+      // el primer nombre sempre és 2 o més perquè el nom vagi en plural
+      // ("té 3 cargols"), que és com el retorna emojiName
       let a,b;
-      do{ a = rand(1,maxSum-1); b = rand(1,maxSum-1); } while(a+b>maxSum);
+      do{ a = rand(2,Math.max(2,maxSum-1)); b = rand(1,maxSum-1); } while(a+b>maxSum);
       answer = a+b;
-      const accio = pick(['en compra','en troba','li\'n regalen']);
-      question = `${qui} té ${a} ${nom} i ${accio} ${b} més. ${quants} en té ara?`;
+      const accio = pick(ACCIONS_MES[cat]);
+      question = `${lloc}${lloc ? enMinuscula(qui) : qui} té ${a} ${nom} i ${accio} ${b} més. ${quants} en té ara?`;
       visual = `<div class="visual-row">
           <div class="group">${emoji.repeat(a)}</div>
           <span class="op-symbol">+</span>
@@ -1472,8 +1647,8 @@
       const a = rand(2,maxSum);
       const b = rand(1,a);
       answer = a-b;
-      const accio = pick(['en dona','en perd','en regala']);
-      question = `${qui} té ${a} ${nom} i ${accio} ${b}. ${quants} en queden?`;
+      const accio = conjuga(pick(ACCIONS_MENYS[cat]), b);
+      question = `${lloc}${lloc ? enMinuscula(qui) : qui} té ${a} ${nom} i ${accio} ${b}. ${quants} en queden?`;
       const objs = Array.from({length:a}, (_,i)=> i<b ? `<span style="opacity:0.25;text-decoration:line-through;">${emoji}</span>` : emoji).join('');
       visual = `<div class="visual-row"><div class="group">${objs}</div></div>`;
     }
@@ -2375,6 +2550,79 @@
     {mot:'dofí', emoji:'🐬', sil:2, art:'el', plural:'dofins'},
     {mot:'raïm', emoji:'🍇', sil:2, art:'el', plural:'raïms'},
     {mot:'cadira', emoji:'🪑', sil:3, art:'la', plural:'cadires'},
+    // Animals
+    {mot:'lleó', emoji:'🦁', sil:2, art:'el', plural:'lleons'},
+    {mot:'tigre', emoji:'🐯', sil:2, art:'el', plural:'tigres'},
+    {mot:'ós', emoji:'🐻', sil:1, art:'l\'', plural:'ossos'},
+    {mot:'porc', emoji:'🐷', sil:1, art:'el', plural:'porcs'},
+    {mot:'cavall', emoji:'🐴', sil:2, art:'el', plural:'cavalls'},
+    {mot:'ovella', emoji:'🐑', sil:3, art:'l\'', plural:'ovelles'},
+    {mot:'gallina', emoji:'🐔', sil:3, art:'la', plural:'gallines'},
+    {mot:'papallona', emoji:'🦋', sil:4, art:'la', plural:'papallones'},
+    {mot:'cargol', emoji:'🐌', sil:2, art:'el', plural:'cargols'},
+    {mot:'serp', emoji:'🐍', sil:1, art:'la', plural:'serps'},
+    {mot:'balena', emoji:'🐳', sil:3, art:'la', plural:'balenes'},
+    {mot:'pop', emoji:'🐙', sil:1, art:'el', plural:'pops'},
+    {mot:'mico', emoji:'🐵', sil:2, art:'el', plural:'micos'},
+    {mot:'guineu', emoji:'🦊', sil:2, art:'la', plural:'guineus'},
+    {mot:'pingüí', emoji:'🐧', sil:3, art:'el', plural:'pingüins'},
+    {mot:'conill', emoji:'🐰', sil:2, art:'el', plural:'conills'},
+    {mot:'aranya', emoji:'🕷️', sil:3, art:'l\'', plural:'aranyes'},
+    {mot:'ocell', emoji:'🐦', sil:2, art:'l\'', plural:'ocells'},
+    {mot:'lloro', emoji:'🦜', sil:2, art:'el', plural:'lloros'},
+    {mot:'zebra', emoji:'🦓', sil:2, art:'la', plural:'zebres'},
+    {mot:'girafa', emoji:'🦒', sil:3, art:'la', plural:'girafes'},
+    // Menjar
+    {mot:'pera', emoji:'🍐', sil:2, art:'la', plural:'peres'},
+    {mot:'taronja', emoji:'🍊', sil:3, art:'la', plural:'taronges'},
+    {mot:'síndria', emoji:'🍉', sil:3, art:'la', plural:'síndries'},
+    {mot:'cirera', emoji:'🍒', sil:3, art:'la', plural:'cireres'},
+    {mot:'llimona', emoji:'🍋', sil:3, art:'la', plural:'llimones'},
+    {mot:'pinya', emoji:'🍍', sil:2, art:'la', plural:'pinyes'},
+    {mot:'ou', emoji:'🥚', sil:1, art:'l\'', plural:'ous'},
+    {mot:'gelat', emoji:'🍦', sil:2, art:'el', plural:'gelats'},
+    {mot:'xocolata', emoji:'🍫', sil:4, art:'la', plural:'xocolates'},
+    {mot:'pastanaga', emoji:'🥕', sil:4, art:'la', plural:'pastanagues'},
+    {mot:'tomàquet', emoji:'🍅', sil:3, art:'el', plural:'tomàquets'},
+    {mot:'bolet', emoji:'🍄', sil:2, art:'el', plural:'bolets'},
+    // Objectes
+    {mot:'llibre', emoji:'📚', sil:2, art:'el', plural:'llibres'},
+    {mot:'motxilla', emoji:'🎒', sil:3, art:'la', plural:'motxilles'},
+    {mot:'rellotge', emoji:'⏰', sil:3, art:'el', plural:'rellotges'},
+    {mot:'clau', emoji:'🔑', sil:1, art:'la', plural:'claus'},
+    {mot:'telèfon', emoji:'📱', sil:3, art:'el', plural:'telèfons'},
+    {mot:'guitarra', emoji:'🎸', sil:3, art:'la', plural:'guitarres'},
+    {mot:'tambor', emoji:'🥁', sil:2, art:'el', plural:'tambors'},
+    {mot:'regal', emoji:'🎁', sil:2, art:'el', plural:'regals'},
+    {mot:'llit', emoji:'🛏️', sil:1, art:'el', plural:'llits'},
+    {mot:'porta', emoji:'🚪', sil:2, art:'la', plural:'portes'},
+    {mot:'finestra', emoji:'🪟', sil:3, art:'la', plural:'finestres'},
+    {mot:'barret', emoji:'🎩', sil:2, art:'el', plural:'barrets'},
+    {mot:'samarreta', emoji:'👕', sil:4, art:'la', plural:'samarretes'},
+    {mot:'mitjó', emoji:'🧦', sil:2, art:'el', plural:'mitjons'},
+    {mot:'corona', emoji:'👑', sil:3, art:'la', plural:'corones'},
+    // Natura i llocs
+    {mot:'muntanya', emoji:'⛰️', sil:3, art:'la', plural:'muntanyes'},
+    {mot:'platja', emoji:'🏖️', sil:2, art:'la', plural:'platges'},
+    {mot:'riu', emoji:'🏞️', sil:1, art:'el', plural:'rius'},
+    {mot:'núvol', emoji:'☁️', sil:2, art:'el', plural:'núvols'},
+    {mot:'pluja', emoji:'🌧️', sil:2, art:'la', plural:'pluges'},
+    {mot:'neu', emoji:'❄️', sil:1, art:'la', plural:'neus'},
+    {mot:'foc', emoji:'🔥', sil:1, art:'el', plural:'focs'},
+    {mot:'escola', emoji:'🏫', sil:3, art:'l\'', plural:'escoles'},
+    {mot:'tren', emoji:'🚂', sil:1, art:'el', plural:'trens'},
+    {mot:'vaixell', emoji:'⛵', sil:2, art:'el', plural:'vaixells'},
+    {mot:'avió', emoji:'✈️', sil:3, art:'l\'', plural:'avions'},
+    {mot:'bicicleta', emoji:'🚲', sil:4, art:'la', plural:'bicicletes'},
+    {mot:'coet', emoji:'🚀', sil:2, art:'el', plural:'coets'},
+    // Persones i cos
+    {mot:'nen', emoji:'👦', sil:1, art:'el', plural:'nens'},
+    {mot:'nena', emoji:'👧', sil:2, art:'la', plural:'nenes'},
+    {mot:'ull', emoji:'👁️', sil:1, art:'l\'', plural:'ulls'},
+    {mot:'peu', emoji:'🦶', sil:1, art:'el', plural:'peus'},
+    {mot:'boca', emoji:'👄', sil:2, art:'la', plural:'boques'},
+    {mot:'cor', emoji:'❤️', sil:1, art:'el', plural:'cors'},
+    {mot:'dent', emoji:'🦷', sil:1, art:'la', plural:'dents'},
   ];
 
   // Grups de rima neta (cada grup té una terminació tònica diferent)
@@ -2390,6 +2638,29 @@
     ['cel','gel','mel'],
     ['poma','goma','coma'],
     ['nas','pas','braç'],
+    // Cada grup ha de tenir una terminació que no rimi amb la de cap altre grup:
+    // si no, un distractor d'un altre grup podria ser una rima bona i vàlida.
+    ['cançó','avió','camió'],
+    ['pilota','granota','gota'],
+    ['sabata','corbata','mata'],
+    ['formatge','viatge','paisatge'],
+    ['cavall','ball','estrall'],
+    ['ocell','anell','castell'],
+    ['taula','paraula','faula'],
+    ['finestra','orquestra','mestra'],
+    ['muntanya','canya','cabanya'],
+    ['dent','vent','content'],
+    ['neu','peu','veu'],
+    ['foc','joc','groc'],
+    ['porta','torta','horta'],
+    ['llit','dit','petit'],
+    ['ou','bou','nou'],
+    ['balena','arena','esquena'],
+    ['corona','persona','estona'],
+    ['campana','setmana','germana'],
+    ['amic','ric','pessic'],
+    ['motxilla','pastilla','llentilla'],
+    ['ovella','abella','parella'],
   ];
 
   const SINONIMS = [
@@ -2397,6 +2668,12 @@
     ['nen','infant'], ['por','temor'], ['petit','menut'], ['enfadat','empipat'],
     ['començar','iniciar'], ['acabar','finalitzar'], ['mestre','professor'],
     ['contestar','respondre'],
+    ['aixecar','alçar'], ['mirar','observar'], ['parlar','xerrar'],
+    ['agafar','prendre'], ['saltar','botar'], ['cansat','fatigat'],
+    ['brut','tacat'], ['fosc','obscur'], ['antic','vell'],
+    ['difícil','complicat'], ['fàcil','senzill'], ['amable','simpàtic'],
+    ['valent','coratjós'], ['tranquil','calmat'], ['dolent','malvat'],
+    ['camí','sender'], ['barreja','mescla'], ['gran','enorme'],
   ];
 
   const ANTONIMS = [
@@ -2404,6 +2681,12 @@
     ['ple','buit'], ['alt','baix'], ['dia','nit'], ['ràpid','lent'],
     ['clar','fosc'], ['dur','tou'], ['llarg','curt'], ['pujar','baixar'],
     ['riure','plorar'], ['a prop','lluny'],
+    ['content','trist'], ['amunt','avall'], ['dins','fora'],
+    ['davant','darrere'], ['abans','després'], ['sempre','mai'],
+    ['molt','poc'], ['jove','vell'], ['ample','estret'],
+    ['gruixut','prim'], ['pesat','lleuger'], ['dolç','salat'],
+    ['mullat','sec'], ['entrar','sortir'], ['guanyar','perdre'],
+    ['començar','acabar'],
   ];
 
   const CAMPS = [
@@ -2413,23 +2696,56 @@
     {nom:'de les coses de l\'escola', mots:['llapis','goma','llibreta','motxilla','estoig','tisores']},
     {nom:'de les parts del cos', mots:['mà','peu','cap','braç','cama','nas']},
     {nom:'dels colors', mots:['vermell','blau','groc','verd','morat','rosa']},
+    {nom:'dels mitjans de transport', mots:['cotxe','tren','avió','vaixell','bicicleta','autobús']},
+    {nom:'dels instruments musicals', mots:['guitarra','flauta','tambor','piano','violí','trompeta']},
+    {nom:'dels dies de la setmana', mots:['dilluns','dimarts','dimecres','dijous','divendres','dissabte']},
+    {nom:'de les coses de la cuina', mots:['plat','got','forquilla','cullera','ganivet','olla']},
+    {nom:'dels esports', mots:['futbol','bàsquet','natació','tennis','handbol','atletisme']},
+    {nom:'del temps que fa', mots:['pluja','neu','vent','sol','núvol','boira']},
+    {nom:'de la família', mots:['pare','mare','germà','avi','àvia','cosí']},
+    {nom:'dels mesos de l\'any', mots:['gener','febrer','març','abril','maig','juny']},
   ];
 
+  // Frases pensades perquè només tinguin un ordre natural possible: així, quan
+  // s'han d'ordenar tocant paraula per paraula, no hi ha cap solució vàlida que
+  // el joc doni per dolenta.
   const FRASES = {
     curtes: [
       ['El','gat','dorm'], ['La','nena','riu'], ['El','sol','brilla'],
       ['Jo','menjo','pa'], ['El','gos','corre'],
+      ['La','flor','creix'], ['El','nen','salta'], ['La','lluna','surt'],
+      ['El','peix','neda'], ['Els','ocells','canten'], ['La','pilota','bota'],
+      ['El','tren','arriba'], ['La','mare','cuina'], ['El','cargol','puja'],
+      ['La','pluja','cau'],
     ],
     mitjanes: [
       ['El','gat','dorm','al','sofà'], ['La','Laia','menja','una','poma'],
       ['El','meu','avi','llegeix','contes'], ['Avui','fa','molt','bon','dia'],
       ['La','granota','salta','molt','amunt'],
+      ['El','conill','menja','una','pastanaga'],
+      ['La','papallona','vola','pel','jardí'],
+      ['Nosaltres','juguem','a','la','plaça'],
+      ['La','Berta','dibuixa','un','arbre'],
+      ['Els','nens','canten','una','cançó'],
+      ['El','pastís','és','molt','bo'],
+      ['La','meva','àvia','fa','sopa'],
+      ['El','pingüí','neda','molt','ràpid'],
+      ['La','mestra','reparteix','els','llibres'],
+      ['El','vaixell','arriba','al','port'],
     ],
     llargues: [
       ['El','meu','germà','juga','a','futbol'],
       ['Demà','anirem','tots','junts','a','la','platja'],
       ['La','mestra','explica','un','conte','molt','divertit'],
       ['A','l\'hivern','sempre','porto','bufanda','i','guants'],
+      ['Els','dissabtes','anem','al','mercat','del','poble'],
+      ['La','meva','germana','toca','molt','bé','la','guitarra'],
+      ['Al','matí','esmorzo','llet','amb','galetes'],
+      ['Aquesta','tarda','farem','un','pastís','de','xocolata'],
+      ['Els','ocells','fan','el','niu','a','l\'arbre'],
+      ['El','meu','cosí','viu','en','un','poble','petit'],
+      ['Cada','estiu','anem','a','la','muntanya','amb','tenda'],
+      ['La','bicicleta','nova','és','de','color','vermell'],
     ],
   };
 
@@ -2439,37 +2755,64 @@
       ['quatre','cuatre'], ['paquet','pacuet'], ['guitarra','gitarra'],
       ['formiga','formigua'], ['joguina','jogina'], ['aquari','acuari'],
       ['màquina','màcuina'], ['campana','canpana'],
+      ['esquena','escuena'], ['taquilla','tacuilla'], ['quilo','cuilo'],
+      ['guineu','gineu'], ['aigua','aiga'], ['pastanaga','pastanagua'],
+      ['comprar','conprar'], ['sempre','senpre'], ['important','inportant'],
+      ['bombolla','bonbolla'], ['embut','enbut'], ['guitarrista','gitarrista'],
     ],
     bv: [ // b/v, j/g, mb/mp (3r)
       ['cavall','caball'], ['avió','abió'], ['arbre','arvre'],
       ['girafa','jirafa'], ['germà','jermà'], ['taronja','taronga'],
       ['ampolla','anpolla'], ['canvi','cambi'],
+      ['cabell','cavell'], ['berenar','verenar'], ['vermell','bermell'],
+      ['bufanda','vufanda'], ['nevera','nebera'], ['divendres','dibendres'],
+      ['treballar','trevallar'], ['bicicleta','vicicleta'], ['convidar','combidar'],
+      ['ambulància','anbulància'], ['gemec','jemec'], ['viatjar','viadjar'],
     ],
     sc: [ // s/ss/c/ç/z (4t)
       ['pissarra','pisarra'], ['cançó','cansó'], ['plaça','plassa'],
       ['cosina','cossina'], ['zebra','sebra'], ['dansa','dança'],
       ['pastís','pastíz'], ['puça','pusa'],
+      ['classe','clase'], ['massa','masa'], ['peça','pessa'],
+      ['braç','bras'], ['feliç','felis'], ['professora','profesora'],
+      ['necessari','necesari'], ['cançoneta','cansoneta'], ['esmorzar','esmorsar'],
+      ['calçotets','calsotets'], ['assegut','asegut'],
     ],
     gjx: [ // g/j, x/ix, l·l (5è)
       ['pluja','pluga'], ['jersei','gersei'], ['caixa','caxa'],
       ['peix','pex'], ['col·legi','colegi'], ['il·lusió','ilusió'],
       ['bruixa','bruxa'], ['granja','granga'],
+      ['viatge','viatje'], ['jugar','gugar'], ['gelat','jelat'],
+      ['metge','metje'], ['paisatge','paisatje'], ['jaqueta','gaqueta'],
+      ['pel·lícula','pelicula'], ['intel·ligent','inteligent'],
+      ['coixí','coxí'], ['xocolata','chocolata'],
     ],
     hd: [ // h i dièresi (6è)
       ['hivern','ivern'], ['hospital','ospital'], ['harmonia','armonia'],
       ['raïm','raim'], ['països','paisos'], ['veïna','veina'],
       ['ahir','air'], ['hora','ora'],
+      ['home','ome'], ['humit','umit'], ['prohibit','proibit'],
+      ['història','istòria'], ['herba','erba'], ['veïnat','veinat'],
+      ['heroi','eroi'], ['traïdor','traidor'], ['hivernacle','ivernacle'],
+      ['adhesiu','adesiu'], ['agraït','agrait'],
     ],
     accents: [ // accent gràfic (5è-6è)
       ['camió','camio'], ['música','musica'], ['ratolí','ratoli'],
       ['pastís','pastis'], ['germà','germa'], ['cançó','canço'],
+      ['cafè','cafe'], ['perquè','perque'], ['església','esglesia'],
+      ['telèfon','telefon'], ['fàcil','facil'], ['difícil','dificil'],
+      ['plàtan','platan'], ['pròxim','proxim'], ['àpat','apat'],
+      ['brúixola','bruixola'], ['pel·lícula','pel·licula'],
     ],
   };
 
   const ACCENTS = {
-    'Aguda': ['camió','cançó','pastís','ratolí','cartró','ocell','dofí'],
-    'Plana': ['taula','arbre','llapis','fàcil','poma','finestra','cotxe'],
-    'Esdrúixola': ['música','màquina','pàgina','llàgrima','fórmula','brúixola','península'],
+    'Aguda': ['camió','cançó','pastís','ratolí','cartró','ocell','dofí',
+              'avió','germà','cafè','menjar','dinar','carrer','ciutat','feliç'],
+    'Plana': ['taula','arbre','llapis','fàcil','poma','finestra','cotxe',
+              'llibre','pilota','cadira','sabata','estrella','núvol','marbre','tortuga'],
+    'Esdrúixola': ['música','màquina','pàgina','llàgrima','fórmula','brúixola','península',
+                   'química','època','ràpida','clàssica','llàstima','ànima','síl·laba','àvia'],
   };
 
   const FRASES_FETES = [
@@ -2483,6 +2826,21 @@
     ['Ploure a bots i barrals','Ploure moltíssim'],
     ['Somiar truites','Fer-se il·lusions impossibles'],
     ['No tenir pèls a la llengua','Dir les coses molt clarament'],
+    ['Tocar el dos','Marxar de pressa'],
+    ['Fer-ne un gra massa','Exagerar'],
+    ['Costar un ull de la cara','Ser caríssim'],
+    ['Fer campana','No anar a classe'],
+    ['Anar de bòlit','Anar molt atrafegat'],
+    ['Dormir com un soc','Dormir profundament'],
+    ['Fer un cop de mà','Ajudar algú'],
+    ['Ser bufar i fer ampolles','Ser facilíssim'],
+    ['Treure de polleguera','Fer enfadar molt'],
+    ['Tenir els ulls més grans que la panxa','Voler menjar més del que es pot'],
+    ['Fer-se un tip de riure','Riure molt'],
+    ['Arribar i moldre','Aconseguir-ho de seguida'],
+    ['Posar fil a l\'agulla','Començar a treballar de valent'],
+    ['Estar amb l\'aigua al coll','Estar en un gran destret'],
+    ['Deixar plantat','Faltar a una cita'],
   ];
 
   const VERBS_TEMPS = [
@@ -2495,12 +2853,102 @@
     ['Abans vivíem en un poble','Passat'],
     ['Ara mateix plou molt','Present'],
     ['Aviat arribarà l\'hivern','Futur'],
+    ['Ahir vaig menjar macarrons','Passat'],
+    ['El cap de setmana vam anar al cinema','Passat'],
+    ['L\'any passat vaig aprendre a nedar','Passat'],
+    ['Fa dos dies va nevar molt','Passat'],
+    ['Dissabte va venir la meva cosina','Passat'],
+    ['Ara escric una carta','Present'],
+    ['Avui fa molt de sol','Present'],
+    ['En aquest moment estudio català','Present'],
+    ['Cada dia esmorzo a les vuit','Present'],
+    ['Ara mateix escolto música','Present'],
+    ['Demà passat visitarem l\'àvia','Futur'],
+    ['La setmana vinent començarem un llibre nou','Futur'],
+    ['Aquest estiu aprendré a tocar la guitarra','Futur'],
+    ['D\'aquí a una hora soparem','Futur'],
+    ['L\'any que ve canviaré d\'escola','Futur'],
   ];
 
   const CATEGORIES = [
     ['córrer','Un verb'], ['saltar','Un verb'], ['menjar','Un verb'], ['dormir','Un verb'],
     ['taula','Un nom'], ['escola','Un nom'], ['germana','Un nom'], ['muntanya','Un nom'],
     ['vermell','Un adjectiu'], ['petit','Un adjectiu'], ['divertida','Un adjectiu'], ['valenta','Un adjectiu'],
+    ['cantar','Un verb'], ['beure','Un verb'], ['escriure','Un verb'],
+    ['pensar','Un verb'], ['obrir','Un verb'], ['nedar','Un verb'],
+    ['ciutat','Un nom'], ['ocell','Un nom'], ['pluja','Un nom'],
+    ['amistat','Un nom'], ['bicicleta','Un nom'], ['finestra','Un nom'],
+    ['alta','Un adjectiu'], ['ràpid','Un adjectiu'], ['tou','Un adjectiu'],
+    ['fosca','Un adjectiu'], ['amable','Un adjectiu'], ['groga','Un adjectiu'],
+  ];
+
+  // Comprensió lectora (cicle mitjà i superior): un text curt i una pregunta que
+  // només es pot respondre havent-lo llegit. `llarg` marca els de 5è-6è.
+  const COMPRENSIO = [
+    {text:'La Mar té un gat que es diu Fum. Cada matí, en Fum s\'asseu a la finestra a mirar els ocells.',
+     pregunta:'On s\'asseu en Fum cada matí?', resposta:'A la finestra',
+     dolentes:['Al sofà','Damunt del llit','A la porta']},
+    {text:'En Pol va anar a la biblioteca i va agafar tres llibres: un de dinosaures, un de pirates i un de receptes.',
+     pregunta:'Quants llibres va agafar en Pol?', resposta:'Tres',
+     dolentes:['Dos','Quatre','Cinc']},
+    {text:'Avui plou molt. La Júlia ha agafat el paraigua vermell perquè el groc estava trencat.',
+     pregunta:'Quin paraigua ha agafat la Júlia?', resposta:'El vermell',
+     dolentes:['El groc','El blau','Cap dels dos']},
+    {text:'Els avis de l\'Aran viuen en un poble de muntanya. Hi va cada estiu i hi puja amb tren.',
+     pregunta:'Com hi puja, l\'Aran?', resposta:'Amb tren',
+     dolentes:['Amb cotxe','Amb autobús','A peu']},
+    {text:'La Nora ha plantat tres tomaqueres al balcó. Les rega cada vespre i ja hi han sortit flors grogues.',
+     pregunta:'Quan rega les plantes, la Nora?', resposta:'Cada vespre',
+     dolentes:['Cada matí','Un cop la setmana','Quan plou']},
+    {text:'En Guim s\'ha deixat l\'entrepà a casa. La seva amiga Ona n\'hi ha donat la meitat del seu.',
+     pregunta:'Per què l\'Ona comparteix l\'entrepà?', resposta:'Perquè en Guim se\'l va deixar a casa',
+     dolentes:['Perquè no li agrada','Perquè n\'hi havia massa','Perquè en Guim li ho va pagar']},
+    {text:'El cargol camina molt a poc a poc perquè porta la casa a sobre. Quan té por, s\'hi amaga a dins.',
+     pregunta:'Què fa el cargol quan té por?', resposta:'S\'amaga dins la closca',
+     dolentes:['Corre molt de pressa','Crida ben fort','Es posa a dormir']},
+    {text:'La classe de 3r ha fet una excursió al mar. Han vist dofins de lluny i han recollit petxines.',
+     pregunta:'Què han vist de lluny?', resposta:'Dofins',
+     dolentes:['Balenes','Vaixells','Gavines']},
+    {text:'Les orenetes marxen a la tardor cap a llocs més calents i tornen a la primavera. Fan el niu sempre al mateix lloc, sota els balcons.',
+     pregunta:'Quan tornen les orenetes?', resposta:'A la primavera', llarg:true,
+     dolentes:['A l\'estiu','A l\'hivern','A la tardor']},
+    {text:'Pau Casals va néixer al Vendrell i va ser un violoncel·lista famós arreu del món. Sempre deia que la seva música era una manera de demanar la pau.',
+     pregunta:'Quin instrument tocava Pau Casals?', resposta:'El violoncel', llarg:true,
+     dolentes:['El piano','La guitarra','El violí']},
+    {text:'Els castellers construeixen torres humanes. A sota hi ha la pinya, que aguanta el pes, i a dalt de tot hi puja l\'enxaneta, que aixeca la mà quan arriba al capdamunt.',
+     pregunta:'Qui puja a dalt de tot del castell?', resposta:'L\'enxaneta', llarg:true,
+     dolentes:['La pinya','El cap de colla','Els músics']},
+    {text:'A l\'hort de l\'escola hi han sembrat enciam, pastanagues i cebes. Els de sisè s\'encarreguen de regar-lo els dilluns i els de tercer, els divendres.',
+     pregunta:'Qui rega l\'hort els divendres?', resposta:'Els de tercer', llarg:true,
+     dolentes:['Els de sisè','Els mestres','Ningú']},
+    {text:'La tramuntana és un vent fred i molt fort que bufa a l\'Empordà. Diuen que quan bufa uns quants dies seguits, la gent s\'engresca i s\'enfada més fàcilment.',
+     pregunta:'Com és el vent de tramuntana?', resposta:'Fred i molt fort', llarg:true,
+     dolentes:['Calent i suau','Humit i plujós','Fluix i càlid']},
+    {text:'Els llibres de la biblioteca estan ordenats per temes i, dins de cada tema, per ordre alfabètic del cognom de qui els ha escrit.',
+     pregunta:'Com s\'ordenen els llibres dins de cada tema?', resposta:'Per ordre alfabètic del cognom', llarg:true,
+     dolentes:['Per mida','Per data','Pel color de la tapa']},
+  ];
+
+  // Definicions senzilles: la definició porta al mot (cicle mitjà i superior)
+  const DEFINICIONS = [
+    ['Lloc on es guarden i es deixen llibres en préstec','biblioteca'],
+    ['Persona que apaga incendis','bomber'],
+    ['Aparell que serveix per veure les coses molt petites','microscopi'],
+    ['Menjar que es fa amb farina i que es cou al forn','pa'],
+    ['Animal que fa la mel','abella'],
+    ['Camí llarg entre muntanyes','sender'],
+    ['Persona que cuida els malalts a l\'hospital','infermera'],
+    ['Estació de l\'any en què cauen les fulles','tardor'],
+    ['Aparell que serveix per mesurar la temperatura','termòmetre'],
+    ['Casa petita feta de fusta al bosc','cabana'],
+    ['Persona que escriu llibres','escriptor'],
+    ['Terreny on es conreen verdures','hort'],
+    ['Instrument que assenyala el nord','brúixola'],
+    ['Conjunt de músics que toquen sardanes','cobla'],
+    ['Muntanya que pot expulsar foc i cendra','volcà'],
+    ['Persona que talla i pentina els cabells','perruquer'],
+    ['Dibuix d\'un territori vist des de dalt','mapa'],
+    ['Ocell nocturn que caça de nit','mussol'],
   ];
 
   const VOCALS = ['A','E','I','O','U'];
@@ -2834,6 +3282,9 @@
     {emoji:'🪈', nom:'flauta',   amb:'la flauta',   familia:'Vent'},
     {emoji:'🪗', nom:'acordió',  amb:'l\'acordió',  familia:'Vent'},
     {emoji:'🎷', nom:'saxòfon',  amb:'el saxòfon',  familia:'Vent'},
+    {emoji:'🪘', nom:'timbal',   amb:'el timbal',   familia:'Percussió'},
+    {emoji:'🪇', nom:'maraques', amb:'les maraques',familia:'Percussió'},
+    {emoji:'📯', nom:'corn',     amb:'el corn',     familia:'Vent'},
   ];
 
   const FIGURES = [
@@ -2851,6 +3302,17 @@
     ['La lluna, la pruna, vestida de dol','La lluna, la pruna'],
     ['Baixant de la font del gat, una noia, una noia','Baixant de la font del gat'],
     ['Plou i fa sol, les bruixes es pentinen','Plou i fa sol'],
+    ['Si n\'eren tres tambors que venien de la guerra','Els tres tambors'],
+    ['Rossinyol que vas a França, rossinyol','El rossinyol'],
+    ['Què li darem, en el Noi de la Mare?','El noi de la Mare'],
+    ['En veure despuntar el major lluminar','El cant dels ocells'],
+    ['Muntanyes del Canigó, fresques són i regalades','Muntanyes del Canigó'],
+    ['Patim, patam, patum, homes i dones del cap dret','El Patufet'],
+    ['Bon cop de falç, defensors de la terra','Els segadors'],
+    ['El pagès, quan sembra la civada','El ball de la civada'],
+    ['Ara ve Nadal, matarem el gall','Ara ve Nadal'],
+    ['A vint-i-cinc de desembre, fum, fum, fum','Fum, fum, fum'],
+    ['A la vora del riu, mare, m\'he deixat les espardenyes','A la vora del riu'],
   ];
 
   // Preguntes de quiz: [pregunta, correcta, [respostes dolentes]]
@@ -2861,6 +3323,16 @@
     ['A la música, què vol dir la lletra «p» (piano)?','Que sona fluix',['Que sona fort','Que va ràpid','Que s\'atura']],
     ['A la música, què vol dir la lletra «f» (forte)?','Que sona fort',['Que sona fluix','Que va lent','Que puja']],
     ['Què vol dir un «crescendo»?','Que sona cada cop més fort',['Que sona cada cop més fluix','Que va més lent','Que es repeteix']],
+    ['Què vol dir un «diminuendo»?','Que sona cada cop més fluix',['Que sona cada cop més fort','Que va més ràpid','Que s\'atura de cop']],
+    ['Què vol dir el terme musical «presto»?','Molt ràpid',['Molt lent','Molt fort','En silenci']],
+    ['Què vol dir el terme musical «largo»?','Molt lent i ample',['Molt ràpid','Molt fort','Molt curt']],
+    ['Què vol dir el terme musical «moderato»?','A una velocitat mitjana',['Molt de pressa','Molt a poc a poc','Sense so']],
+    ['A la música, què vol dir «mf» (mezzoforte)?','Que sona mig fort',['Que sona molt fluix','Que sona fortíssim','Que no sona']],
+    ['A la música, què vol dir «pp» (pianissimo)?','Que sona molt i molt fluix',['Que sona molt i molt fort','Que va molt ràpid','Que va molt lent']],
+    ['A la música, què vol dir «ff» (fortissimo)?','Que sona molt i molt fort',['Que sona molt fluix','Que va molt lent','Que es calla']],
+    ['Què vol dir tocar «staccato»?','Notes ben curtes i separades',['Notes ben lligades','Notes molt greus','Notes molt agudes']],
+    ['Què vol dir tocar «legato»?','Notes ben lligades entre elles',['Notes tallades i seques','Notes molt fortes','Notes molt ràpides']],
+    ['Què indica un calderó damunt d\'una nota?','Que s\'allarga una mica més',['Que es calla','Que es repeteix','Que puja d\'octava']],
   ];
 
   const CULTURA_COBLA = [
@@ -2868,6 +3340,14 @@
     ['Com es diu el grup de músics que toca les sardanes?','La cobla',['L\'orquestra','La banda','El cor']],
     ['Quin d\'aquests instruments sona a la cobla?','La tenora',['El piano','La bateria','L\'arpa']],
     ['Quin instrument petit toca el flabiolaire amb una sola mà?','El flabiol',['La tuba','El violoncel','La guitarra']],
+    ['Com es balla la sardana?','En rotllana, agafats de les mans',['En parella','Cadascú tot sol','En filera']],
+    ['Quin instrument de la cobla sona més agut que la tenora?','El tible',['El contrabaix','La tuba','El trombó']],
+    ['Què fa el flabiolaire amb l\'altra mà mentre toca el flabiol?','Toca el tamborí',['Balla','Dirigeix la cobla','Canta']],
+    ['Què és una havanera?','Una cançó marinera de la costa',['Una dansa de muntanya','Un instrument de vent','Un ball de saló']],
+    ['Què són les caramelles?','Cançons que es canten per Pasqua',['Un instrument de percussió','Un ball de Nadal','Un tipus de flauta']],
+    ['Quin instrument acompanya els castellers?','La gralla',['El violí','El piano','L\'arpa']],
+    ['Què és un cor?','Un grup de persones que canten juntes',['Un instrument de corda','Un tipus de dansa','Una partitura antiga']],
+    ['Quantes persones toquen en una cobla?','Onze',['Cinc','Vint','Tres']],
   ];
 
   const COMPOSITORS = [
@@ -2875,6 +3355,17 @@
     ['Qui va compondre «Les quatre estacions»?','Vivaldi',['Pau Casals','Chopin','Bach']],
     ['Quin compositor va continuar escrivint música tot i quedar-se sord?','Beethoven',['Mozart','Vivaldi','Rossini']],
     ['Quin nen prodigi ja componia música de ben petit?','Mozart',['Beethoven','Wagner','Bach']],
+    ['Quin músic català va tocar «El cant dels ocells» davant les Nacions Unides?','Pau Casals',['Mozart','Bach','Vivaldi']],
+    ['Quin compositor català va escriure la suite «Iberia»?','Isaac Albéniz',['Pau Casals','Mozart','Bach']],
+    ['Qui va compondre les «Danses espanyoles» i «Goyescas»?','Enric Granados',['Vivaldi','Beethoven','Haydn']],
+    ['Quin músic va fundar l\'Orfeó Català i va escriure «El cant de la Senyera»?','Lluís Millet',['Isaac Albéniz','Frederic Mompou','Pau Casals']],
+    ['Quin compositor va escriure «Les noces de Fígaro»?','Mozart',['Vivaldi','Chopin','Bach']],
+    ['Quin compositor barroc alemany va escriure moltíssima música per a orgue?','Bach',['Mozart','Beethoven','Verdi']],
+    ['Qui va compondre la Simfonia núm. 9, amb l\'Himne a l\'alegria?','Beethoven',['Mozart','Vivaldi','Bach']],
+    ['Quin instrument tocava sobretot Chopin?','El piano',['El violí','La flauta','El tambor']],
+    ['Quina pianista i compositora alemanya estava casada amb Robert Schumann?','Clara Schumann',['Fanny Mendelssohn','Nadia Boulanger','Alma Mahler']],
+    ['Qui va compondre el ballet «El llac dels cignes»?','Txaikovski',['Vivaldi','Bach','Mozart']],
+    ['De quin país era Mozart?','D\'Àustria',['De França','D\'Itàlia','D\'Anglaterra']],
   ];
 
   // ---------- ÀREA DE MÚSICA: GENERADORS ----------
@@ -3431,6 +3922,146 @@
     renderRound();
   }
 
+  // ---------- FORMATS DE RESPOSTA ----------
+  // Per defecte una ronda es respon triant un dels botons d'opció. Una ronda pot
+  // demanar un altre format amb la clau `format`, i llavors porta també `items`
+  // (les peces amb què jugar) i, si la resposta interna no és bonica de llegir,
+  // `answerText` (el que es diu a la línia de feedback quan s'ha fallat).
+  //   'multi'  → tocar-ne unes quantes i confirmar (answer = triades ordenades amb |)
+  //   'ordena' → tocar-les en ordre fins a omplir la safata (answer = separades per espai)
+  //   'teclat' → escriure un número amb el teclat (answer = el número com a text)
+  // Tots acaben cridant handleAnswer(valor, botóOCap), així la puntuació, els sons,
+  // l'historial i el nivell funcionen exactament igual que amb els botons de sempre.
+
+  function renderOpcions(r, grid){
+    r.options.forEach(opt=>{
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.textContent = opt;
+      btn.onclick = ()=>handleAnswer(opt, btn);
+      grid.appendChild(btn);
+    });
+  }
+
+  // Clau interna d'una tria múltiple: sempre ordenada, per no dependre de l'ordre
+  // en què la nena ha anat tocant les fitxes.
+  function clauMulti(llista){ return llista.map(String).slice().sort().join('|'); }
+
+  function renderMulti(r, grid){
+    grid.className = 'options-grid lliure';
+    const triades = [];
+    const fitxes = document.createElement('div');
+    fitxes.className = 'fitxes';
+    r.items.forEach(item=>{
+      const btn = document.createElement('button');
+      btn.className = 'fitxa';
+      btn.textContent = item;
+      btn.onclick = ()=>{
+        const i = triades.indexOf(item);
+        if(i>=0){ triades.splice(i,1); btn.classList.remove('triada'); }
+        else { triades.push(item); btn.classList.add('triada'); }
+        confirma.disabled = triades.length===0;
+      };
+      fitxes.appendChild(btn);
+    });
+    grid.appendChild(fitxes);
+    const confirma = document.createElement('button');
+    confirma.className = 'confirma-btn';
+    confirma.textContent = '✅ Ja està!';
+    confirma.disabled = true;
+    confirma.onclick = ()=> handleAnswer(clauMulti(triades), null);
+    grid.appendChild(confirma);
+  }
+
+  function renderOrdena(r, grid){
+    grid.className = 'options-grid lliure';
+    const safata = document.createElement('div');
+    safata.className = 'safata';
+    const posades = [];
+    const pendents = shuffle(r.items);
+
+    const fitxes = document.createElement('div');
+    fitxes.className = 'fitxes';
+
+    function pintaSafata(){
+      safata.innerHTML = '';
+      if(posades.length===0){
+        const buit = document.createElement('div');
+        buit.className = 'safata-buida';
+        buit.textContent = r.pista || 'Toca-les en ordre 👇';
+        safata.appendChild(buit);
+        return;
+      }
+      posades.forEach(p=>{
+        const f = document.createElement('div');
+        f.className = 'fitxa';
+        f.textContent = p;
+        safata.appendChild(f);
+      });
+    }
+
+    pendents.forEach(item=>{
+      const btn = document.createElement('button');
+      btn.className = 'fitxa';
+      btn.textContent = item;
+      btn.onclick = ()=>{
+        posades.push(item);
+        btn.classList.add('buida');
+        btn.disabled = true;
+        pintaSafata();
+        if(posades.length===r.items.length){
+          handleAnswer(posades.join(' '), null);
+        }
+      };
+      fitxes.appendChild(btn);
+    });
+
+    const desfes = document.createElement('button');
+    desfes.className = 'desfes-btn';
+    desfes.textContent = '↩️ Treure\'n una';
+    desfes.onclick = ()=>{
+      if(posades.length===0) return;
+      const ultim = posades.pop();
+      const btn = Array.from(fitxes.children).find(b=>b.textContent===ultim && b.disabled);
+      if(btn){ btn.classList.remove('buida'); btn.disabled = false; }
+      pintaSafata();
+    };
+
+    pintaSafata();
+    grid.appendChild(safata);
+    grid.appendChild(fitxes);
+    grid.appendChild(desfes);
+  }
+
+  function renderTeclat(r, grid){
+    grid.className = 'options-grid lliure';
+    let text = '';
+    const visor = document.createElement('div');
+    visor.className = 'visor';
+    visor.textContent = '?';
+
+    const teclat = document.createElement('div');
+    teclat.className = 'teclat';
+    const tecles = ['1','2','3','4','5','6','7','8','9','⌫','0','✅'];
+    tecles.forEach(t=>{
+      const btn = document.createElement('button');
+      btn.className = 'tecla';
+      btn.textContent = t;
+      btn.onclick = ()=>{
+        if(t==='⌫'){ text = text.slice(0,-1); }
+        else if(t==='✅'){ if(text!=='') handleAnswer(text, null); return; }
+        else if(text.length<5){ text += t; }
+        visor.textContent = text==='' ? '?' : text;
+      };
+      teclat.appendChild(btn);
+    });
+
+    grid.appendChild(visor);
+    grid.appendChild(teclat);
+  }
+
+  const RENDER_FORMAT = { opcions:renderOpcions, multi:renderMulti, ordena:renderOrdena, teclat:renderTeclat };
+
   function renderRound(){
     const r = state.current;
     document.getElementById('gameLabel').textContent = r.label;
@@ -3445,13 +4076,8 @@
 
     const grid = document.getElementById('optionsGrid');
     grid.innerHTML = '';
-    r.options.forEach(opt=>{
-      const btn = document.createElement('button');
-      btn.className = 'option-btn';
-      btn.textContent = opt;
-      btn.onclick = ()=>handleAnswer(opt, btn);
-      grid.appendChild(btn);
-    });
+    grid.className = 'options-grid';
+    (RENDER_FORMAT[r.format] || renderOpcions)(r, grid);
 
     // Rondes de música amb so: botó per tornar-lo a escoltar
     if(r.reproduir){
@@ -3480,31 +4106,37 @@
     const correct = (opt === r.answer);
     const elapsed = state.roundStartTime ? (Date.now() - state.roundStartTime) : null;
     const allBtns = document.querySelectorAll('.option-btn');
-    allBtns.forEach(b=>b.disabled = true);
+    // Es desactiva tot el que sigui clicable a la zona de resposta, sigui quin
+    // sigui el format (botons d'opció, fitxes, tecles i botons de confirmar).
+    document.querySelectorAll('#optionsGrid button').forEach(b=>b.disabled = true);
+    // Els formats que no són botons d'opció es responen amb diversos tocs (triar
+    // fitxes, ordenar, teclejar): hi passa més estona, i per això no compten per
+    // a la velocitat, que serviria per pujar o baixar de nivell injustament.
+    const contaVelocitat = !r.format || r.format==='opcions';
 
     const fb = document.getElementById('feedback');
     const mascot = document.getElementById('mascot');
 
     if(correct){
-      btn.classList.add('correct');
+      if(btn) btn.classList.add('correct');
       state.stars++;
       state.streakCorrect++;
       state.streakWrong = 0;
-      if(elapsed!==null && elapsed<=fastMs()){ state.fastStreak++; } else { state.fastStreak = 0; }
-      if(elapsed!==null && elapsed>=slowMs()){ state.slowStreak++; } else { state.slowStreak = 0; }
+      if(contaVelocitat && elapsed!==null && elapsed<=fastMs()){ state.fastStreak++; } else { state.fastStreak = 0; }
+      if(contaVelocitat && elapsed!==null && elapsed>=slowMs()){ state.slowStreak++; } else { state.slowStreak = 0; }
       fb.textContent = pick(['Molt bé! 🎉','Genial! 🌟','Perfecte! 👏','Ho has clavat! ✨']);
       fb.className = 'feedback good';
       mascot.classList.remove('sad');
       mascot.classList.add('bounce');
       launchConfetti();
     } else {
-      btn.classList.add('wrong');
+      if(btn) btn.classList.add('wrong');
       allBtns.forEach(b=>{ if(b.textContent==String(r.answer)) b.classList.add('correct'); });
       state.streakWrong++;
       state.streakCorrect=0;
       state.fastStreak = 0;
-      state.slowStreak++;
-      fb.textContent = `Gairebé! La resposta correcta és ${r.answer}. Ho tornarem a provar! 💪`;
+      if(contaVelocitat) state.slowStreak++;
+      fb.textContent = `Gairebé! La resposta correcta és ${r.answerText || r.answer}. Ho tornarem a provar! 💪`;
       fb.className = 'feedback bad';
       mascot.classList.remove('bounce');
       mascot.classList.add('sad');
