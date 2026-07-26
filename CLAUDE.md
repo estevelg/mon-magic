@@ -45,8 +45,12 @@ El joc ja té implementat:
      ordenar, problemes d'un pas, monedes senceres.
    - **2n**: sumes/restes fins a 200 (sense portar al nivell 1, portant després),
      taules del 2/5/10, dobles/meitats ≤50, parells i senars, comparar/ordenar
-     ≤999, seqüències de 2/5/10 en 10, rellotge "i mitja", diners amb bitllets i
-     moneda de 50 cèntims.
+     ≤999, seqüències de 2/5/10 en 10, rellotge en punt i la mitja en notació
+     catalana de quarts ("Dos quarts de deu" per a les 9:30, mai "les nou i
+     mitja"), diners amb bitllets i moneda de 50 cèntims. Les hores en punt es
+     construeixen amb `enPunt(h)`, que posa l'article en singular a la una
+     ("La 1 en punt"); les mitges, amb `dosQuartsDe(h)`, que apostrofa davant
+     de vocal ("Dos quarts d'una", "Dos quarts d'onze").
    - **3r**: sumes/restes ≤999 portant, totes les taules, divisió exacta,
      fraccions (identificar i fracció de quantitat), rellotge digital (quarts i de
      5 en 5 minuts), mesures (m/cm/km/mm), perímetre, problemes de dos passos.

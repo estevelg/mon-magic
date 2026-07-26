@@ -1240,19 +1240,24 @@
     </svg>`;
   }
 
+  // L'hora una va en singular: "la una en punt", no pas "les una".
+  function enPunt(h){
+    return `${h===1 ? 'La' : 'Les'} ${h} en punt`;
+  }
+
   function genClock(){
     const hour = rand(1,12);
     const hourAngle = (hour%12)*30;
     const minuteAngle = 0;
     const svg = buildClockSVG(hourAngle, minuteAngle);
-    const answer = `Les ${hour} en punt`;
+    const answer = enPunt(hour);
     const wrongHours = shuffle([1,2,3,4,5,6,7,8,9,10,11,12].filter(h=>h!==hour)).slice(0,3);
-    let options = wrongHours.map(h => `Les ${h} en punt`);
+    let options = wrongHours.map(h => enPunt(h));
     options.push(answer);
     options = shuffle(Array.from(new Set(options)));
     while(options.length<4){
       const h = rand(1,12);
-      const opt = `Les ${h} en punt`;
+      const opt = enPunt(h);
       if(!options.includes(opt)) options.push(opt);
     }
     return {
@@ -1907,6 +1912,21 @@
     };
   }
 
+  // Notació catalana de quarts: la mitja hora es diu "dos quarts de <l'hora
+  // següent>" (les 9:30 són "dos quarts de deu"), no pas "les nou i mitja"
+  // (calc de l'espanyol). Les hores van en femení perquè concorden amb "les".
+  const HORES_MOT = {1:'una',2:'dues',3:'tres',4:'quatre',5:'cinc',6:'sis',
+                     7:'set',8:'vuit',9:'nou',10:'deu',11:'onze',12:'dotze'};
+  function deHora(h){
+    const mot = HORES_MOT[((h-1)%12)+1];
+    // "de" s'apostrofa davant de vocal: d'una, d'onze
+    return (mot==='una'||mot==='onze') ? `d'${mot}` : `de ${mot}`;
+  }
+  function dosQuartsDe(hour){
+    const seguent = hour%12 + 1; // 9 → deu; 12 → una
+    return `Dos quarts ${deHora(seguent)}`;
+  }
+
   function genRellotgeF(modes){
     return function(){
       const mode = lvl(modes);
@@ -1914,17 +1934,17 @@
       let minuts, options, answer;
       if(mode==='enpunt' || (mode==='mitja' && Math.random()<0.5)){
         minuts = 0;
-        answer = `Les ${hour} en punt`;
+        answer = enPunt(hour);
         options = opcionsText(answer, ()=>{
           const h = rand(1,12);
-          return Math.random()<0.5 || mode==='enpunt' ? `Les ${h} en punt` : `Les ${h} i mitja`;
+          return Math.random()<0.5 || mode==='enpunt' ? enPunt(h) : dosQuartsDe(h);
         }, 4);
       } else if(mode==='mitja'){
         minuts = 30;
-        answer = `Les ${hour} i mitja`;
+        answer = dosQuartsDe(hour);
         options = opcionsText(answer, ()=>{
           const h = rand(1,12);
-          return Math.random()<0.5 ? `Les ${h} i mitja` : `Les ${h} en punt`;
+          return Math.random()<0.5 ? dosQuartsDe(h) : enPunt(h);
         }, 4);
       } else {
         minuts = mode==='quarts' ? pick([0,15,30,45]) : rand(0,11)*5;
