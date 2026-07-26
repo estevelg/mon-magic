@@ -273,7 +273,9 @@ describe('els formats de resposta nous es poden respondre', () => {
     for (const xifra of String(ronda.answer)) tecla(xifra).click();
     expect(visor.textContent).toBe(String(ronda.answer));
     tecla('⌫').click();
-    expect(visor.textContent).toBe(String(ronda.answer).slice(0, -1));
+    // amb el visor buit hi tornem a posar l'interrogant, que és el que hi ha al principi
+    const restant = String(ronda.answer).slice(0, -1);
+    expect(visor.textContent).toBe(restant === '' ? '?' : restant);
     tecla(String(ronda.answer).slice(-1)).click();
     tecla('✅').click();
     expect(joc.elements.get('feedback').className).toContain('good');
