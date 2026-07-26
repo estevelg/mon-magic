@@ -969,7 +969,7 @@
                          '🍐','🍊','🍒','🐱','🐶','🐰','🦋','🐌','🐦','🌳','🚲','📚','🎁','🍄','🥕','🥚',
                          '🐧','🐑','🍦','🔑'];
   const SHAPE_NAMES = {circle:'Cercle', square:'Quadrat', triangle:'Triangle', rectangle:'Rectangle', star:'Estrella'};
-  const TYPE_LABELS = {suma:'Sumes', resta:'Restes', incognita:'Troba el número', dobles:'Dobles i meitats', compara:'Comparar', sequencia:'Seqüències', geometria:'Formes', rellotge:'Rellotge', comptar:'Comptar', colors:'Colors', mida:'Gran i petit', ordenar:'Ordenar nombres', problema:'Problemes', monedes:'Monedes', reconeixer:'Busca el número', multiplicacio:'Multiplicar', divisio:'Dividir', fraccions:'Fraccions', decimals:'Decimals', percentatge:'Percentatges', mesura:'Mesures', parell:'Parells i senars', operacions:'Operacions combinades', mitjana:'Mitjana', proporcio:'Proporcions', temperatura:'Temperatura', angles:'Angles', perimetre:'Perímetre i àrea', multiples:'Múltiples i divisors', diferent:'Quin és diferent', daus:'El dau', llargada:'Llarg i curt', posicio:'On és', igual:'Quin és igual', descomposicio:'Desenes i unitats', grafic:'Gràfics', calendari:'El calendari', simetria:'Simetria', cossos:'Cossos geomètrics', arrodonir:'Arrodonir', probabilitat:'Atzar i probabilitat', volum:'Volum', potencies:'Potències i arrels', estadistica:'Estadística', lletres:'Les lletres', sillabes:'Síl·labes', rimes:'Rimes', lectura:'Lectura', gramatica:'Gramàtica', frases:'Ordenar frases', intrus:'L\'intrús', sinonims:'Sinònims', antonims:'Contraris', ortografia:'Ortografia', alfabet:'Ordre alfabètic', accents:'Accentuació', frasesfetes:'Frases fetes', verbs:'Els verbs', qualitats:'Qualitats del so', oida:'Educació de l\'oïda', instruments:'Instruments', figures:'Figures musicals', pentagrama:'El pentagrama', compas:'El compàs', cancons:'Cançons', tempo:'Tempo i dinàmica', cultura:'Cultura musical', compositors:'Compositors'};
+  const TYPE_LABELS = {suma:'Sumes', resta:'Restes', incognita:'Troba el número', dobles:'Dobles i meitats', compara:'Comparar', sequencia:'Seqüències', geometria:'Formes', rellotge:'Rellotge', comptar:'Comptar', colors:'Colors', mida:'Gran i petit', ordenar:'Ordenar nombres', problema:'Problemes', monedes:'Monedes', reconeixer:'Busca el número', multiplicacio:'Multiplicar', divisio:'Dividir', fraccions:'Fraccions', decimals:'Decimals', percentatge:'Percentatges', mesura:'Mesures', parell:'Parells i senars', operacions:'Operacions combinades', mitjana:'Mitjana', proporcio:'Proporcions', temperatura:'Temperatura', angles:'Angles', perimetre:'Perímetre i àrea', multiples:'Múltiples i divisors', diferent:'Quin és diferent', daus:'El dau', llargada:'Llarg i curt', posicio:'On és', igual:'Quin és igual', descomposicio:'Desenes i unitats', grafic:'Gràfics', calendari:'El calendari', simetria:'Simetria', cossos:'Cossos geomètrics', arrodonir:'Arrodonir', probabilitat:'Atzar i probabilitat', volum:'Volum', potencies:'Potències i arrels', estadistica:'Estadística', comprensio:'Comprensió lectora', registre:'Formal i informal', lletres:'Les lletres', sillabes:'Síl·labes', rimes:'Rimes', lectura:'Lectura', gramatica:'Gramàtica', frases:'Ordenar frases', intrus:'L\'intrús', sinonims:'Sinònims', antonims:'Contraris', ortografia:'Ortografia', alfabet:'Ordre alfabètic', accents:'Accentuació', frasesfetes:'Frases fetes', verbs:'Els verbs', qualitats:'Qualitats del so', oida:'Educació de l\'oïda', instruments:'Instruments', figures:'Figures musicals', pentagrama:'El pentagrama', compas:'El compàs', cancons:'Cançons', tempo:'Tempo i dinàmica', cultura:'Cultura musical', compositors:'Compositors'};
 
   function rand(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
   function pick(arr){ return arr[rand(0,arr.length-1)]; }
@@ -3497,6 +3497,66 @@
     ['Ocell nocturn que caça de nit','mussol'],
   ];
 
+  // Quin signe falta al final de la frase
+  const PUNTUACIO = [
+    ['Com et dius', '?'], ['Que bonic que és', '!'], ['Avui he anat a l\'escola', '.'],
+    ['Quants anys tens', '?'], ['Quina sort que has tingut', '!'], ['El gat dorm al sofà', '.'],
+    ['On és la meva motxilla', '?'], ['Vigila, que cau', '!'], ['Demà anirem al mercat', '.'],
+    ['Què vols per berenar', '?'], ['Quin fred que fa', '!'], ['La Berta toca la guitarra', '.'],
+    ['Qui ha obert la finestra', '?'], ['Ai, m\'he fet mal', '!'], ['Els ocells fan el niu a l\'arbre', '.'],
+  ];
+
+  // Famílies de paraules (mots que vénen d'una mateixa arrel)
+  const FAMILIES = [
+    ['flor', ['florista','floreta','florir']],
+    ['pa', ['panet','panera']],
+    ['mar', ['marí','mariner','submarí']],
+    ['llibre', ['llibreria','llibreta','llibreter']],
+    ['sabata', ['sabater','sabateria']],
+    ['fusta', ['fuster','fusteria']],
+    ['peix', ['peixater','peixateria','peixet']],
+    ['dent', ['dentista','dentadura']],
+    ['jardí', ['jardiner','jardineria']],
+    ['llet', ['lleteria','lleter']],
+    ['carn', ['carnisser','carnisseria']],
+    ['pastís', ['pastisser','pastisseria']],
+    ['casa', ['caseta','casolà']],
+    ['cuina', ['cuiner','cuinera']],
+    ['fruita', ['fruiter','fruiteria']],
+  ];
+
+  // Un mateix verb en passat, present i futur (sempre en primera persona)
+  const VERBS_CONJUGATS = [
+    {inf:'cantar',   Passat:'vaig cantar',   Present:'canto',   Futur:'cantaré'},
+    {inf:'menjar',   Passat:'vaig menjar',   Present:'menjo',   Futur:'menjaré'},
+    {inf:'córrer',   Passat:'vaig córrer',   Present:'corro',   Futur:'correré'},
+    {inf:'llegir',   Passat:'vaig llegir',   Present:'llegeixo',Futur:'llegiré'},
+    {inf:'dormir',   Passat:'vaig dormir',   Present:'dormo',   Futur:'dormiré'},
+    {inf:'escriure', Passat:'vaig escriure', Present:'escric',  Futur:'escriuré'},
+    {inf:'jugar',    Passat:'vaig jugar',    Present:'jugo',    Futur:'jugaré'},
+    {inf:'beure',    Passat:'vaig beure',    Present:'bec',     Futur:'beuré'},
+    {inf:'obrir',    Passat:'vaig obrir',    Present:'obro',    Futur:'obriré'},
+    {inf:'venir',    Passat:'vaig venir',    Present:'vinc',    Futur:'vindré'},
+    {inf:'saltar',   Passat:'vaig saltar',   Present:'salto',   Futur:'saltaré'},
+    {inf:'perdre',   Passat:'vaig perdre',   Present:'perdo',   Futur:'perdré'},
+  ];
+
+  // Com parlem segons amb qui: registre formal o informal
+  const REGISTRE = [
+    ['Bon dia, senyora directora. Voldria demanar-li una cosa.', 'Formal'],
+    ['Ei! Què, com va això?', 'Informal'],
+    ['Benvolguda família, us convidem a la festa de final de curs.', 'Formal'],
+    ['Vinga, va, que arribem tard!', 'Informal'],
+    ['Disculpi, em podria dir on és la biblioteca?', 'Formal'],
+    ['Tio, això mola un munt.', 'Informal'],
+    ['Li agrairia que em respongués abans de divendres.', 'Formal'],
+    ['Passa-m\'ho, que ho vull veure!', 'Informal'],
+    ['Atentament, el vostre alumne.', 'Formal'],
+    ['Nen, deixa\'m lloc que no hi cabo.', 'Informal'],
+    ['Em plau presentar-vos la nova mestra de música.', 'Formal'],
+    ['Què hi fem, aquesta tarda?', 'Informal'],
+  ];
+
   const VOCALS = ['A','E','I','O','U'];
   const ABECEDARI = 'ABCDEFGHIJLMNOPQRSTUVXZ'.split('');
   // Lletres amb minúscula de forma clarament diferent de la majúscula
@@ -3785,6 +3845,257 @@
         visualHTML:'',
         options: shuffle([significat, ...altres]),
         answer: significat };
+    };
+  }
+
+  // ---------- LLETRES: REPTES DE VARIETAT ----------
+
+  // Quina paraula comença igual (mateix so inicial)
+  function genSoInicialF(nOpts){
+    return function(){
+      const model = pick(MOTS);
+      const inicial = primeraLletra(model.mot);
+      const companys = MOTS.filter(m=>m.mot!==model.mot && primeraLletra(m.mot)===inicial);
+      if(companys.length===0) return genPrimeraLletraF(false, nOpts)();
+      const bo = pick(companys);
+      const dolents = shuffle(MOTS.filter(m=>primeraLletra(m.mot)!==inicial)).slice(0, nOpts-1);
+      return { type:'lletres', label:'Comencen igual 🔤',
+        question:`Quina paraula comença igual que ${model.mot.toUpperCase()}?`,
+        visualHTML:`<div class="visual-row"><span style="font-size:3rem;">${model.emoji}</span><span class="num-card">${model.mot.toUpperCase()}</span></div>`,
+        options: shuffle([bo.mot, ...dolents.map(m=>m.mot)]),
+        answer: bo.mot };
+    };
+  }
+
+  // Amb quina lletra acaba (només mots acabats en lletra sense accent: una
+  // opció com "Ó" cantaria massa entre lletres de l'abecedari)
+  function genLletraFinalF(nOpts){
+    return function(){
+      const m = pick(MOTS.filter(x=>ABECEDARI.includes(x.mot[x.mot.length-1].toUpperCase())));
+      const answer = m.mot[m.mot.length-1].toUpperCase();
+      const pool = ABECEDARI.filter(l=>l!==answer);
+      return { type:'lletres', label:'L\'última lletra 🔚',
+        question:`Amb quina lletra acaba ${m.mot.toUpperCase()}?`,
+        visualHTML:`<div class="visual-row"><span style="font-size:3rem;">${m.emoji}</span><span class="num-card">${m.mot.toUpperCase()}</span></div>`,
+        options: opcionsLletres(answer, pool, nOpts),
+        answer };
+    };
+  }
+
+  // Toca totes les lletres iguals (tria múltiple)
+  function genTocaLletraF(pools){
+    return function(){
+      const pool = lvl(pools);
+      const lletra = pick(pool);
+      const altres = ABECEDARI.filter(l=>l!==lletra);
+      const quantes = rand(2,3);
+      const items = shuffle([
+        ...Array(quantes).fill(lletra),
+        ...shuffle(altres).slice(0, rand(3,4)),
+      ]);
+      return { type:'lletres', label:'Toca la lletra 👆',
+        format:'multi', items,
+        question:`Toca totes les lletres ${lletra}`,
+        visualHTML:`<div class="visual-row"><span style="font-size:3.4rem;color:#5b4bc4;font-weight:bold;">${lletra}</span></div>`,
+        answer: clauMulti(Array(quantes).fill(lletra)),
+        answerText: `les ${quantes} lletres ${lletra}` };
+    };
+  }
+
+  // Forma la paraula ordenant-ne les lletres
+  function genOrdenaLletresF(maxLletres){
+    return function(){
+      const max = lvl(maxLletres);
+      const candidats = MOTS.filter(m=>m.mot.length<=max && new Set(m.mot.split('')).size===m.mot.length);
+      const m = pick(candidats.length ? candidats : MOTS.filter(x=>x.mot.length<=max));
+      const lletres = m.mot.toUpperCase().split('');
+      return { type:'lectura', label:'Forma la paraula 🔡',
+        format:'ordena', items: lletres, pista:'Toca les lletres en ordre',
+        question:`Posa les lletres en ordre i forma la paraula`,
+        visualHTML:`<div class="visual-row"><span style="font-size:3.4rem;">${m.emoji}</span></div>`,
+        answer: lletres.join(' '),
+        answerText: m.mot.toUpperCase() };
+    };
+  }
+
+  // Quantes paraules té la frase
+  function genComptaMotsF(tiers){
+    return function(){
+      const frase = pick(FRASES[lvl(tiers)]);
+      const answer = frase.length;
+      return { type:'frases', label:'Compta les paraules 🔢',
+        question:'Quantes paraules té aquesta frase?',
+        visualHTML:`<div class="visual-row"><span class="num-card">${frase.join(' ')}</span></div>`,
+        options: uniqueOptions(answer, Math.max(2,answer-2), answer+2, 4),
+        answer };
+    };
+  }
+
+  // Toca tots els mots que tenen tantes síl·labes (tria múltiple)
+  function genTocaSillabesF(){
+    return function(){
+      const objectiu = rand(1,3);
+      const bons = shuffle(MOTS.filter(m=>m.sil===objectiu)).slice(0, rand(2,3));
+      const dolents = shuffle(MOTS.filter(m=>m.sil!==objectiu)).slice(0, 3);
+      if(bons.length<2) return genSillabesF([3,4,4],4)();
+      const items = shuffle([...bons, ...dolents]).map(m=>m.mot);
+      return { type:'sillabes', label:'Toca les síl·labes 👏',
+        format:'multi', items,
+        question:`Toca totes les paraules que tenen ${objectiu} ${objectiu===1?'síl·laba':'síl·labes'}`,
+        visualHTML:'',
+        answer: clauMulti(bons.map(m=>m.mot)),
+        answerText: bons.map(m=>m.mot).join(', ') };
+    };
+  }
+
+  // Masculí o femení
+  function genGenereF(){
+    return function(){
+      const m = pick(MOTS.filter(x=>x.art==='el' || x.art==='la'));
+      const answer = m.art==='la' ? 'femení' : 'masculí';
+      return { type:'gramatica', label:'Masculí o femení? 🚻',
+        question:`La paraula ${m.mot.toUpperCase()}, és masculina o femenina?`,
+        visualHTML:`<div class="visual-row"><span style="font-size:3rem;">${m.emoji}</span><span class="num-card">${m.art} ${m.mot}</span></div>`,
+        options: shuffle(['masculí','femení']),
+        answer };
+    };
+  }
+
+  // El, la o l'
+  function genApostrofF(){
+    return function(){
+      const m = pick(MOTS);
+      return { type:'gramatica', label:'El, la o l\'? ✏️',
+        question:`Quin article hi va davant? ___ ${m.mot}`,
+        visualHTML:`<div class="visual-row"><span style="font-size:3rem;">${m.emoji}</span><span class="num-card">___ ${m.mot}</span></div>`,
+        options: shuffle(['el','la','l\'']),
+        answer: m.art };
+    };
+  }
+
+  // Ordenar la frase tocant paraula per paraula
+  function genOrdenaFraseTocantF(tiers){
+    return function(){
+      const frase = pick(FRASES[lvl(tiers)]);
+      return { type:'frases', label:'Ordena la frase 📝',
+        format:'ordena', items: frase.slice(), pista:'Toca les paraules en ordre',
+        question:'Toca les paraules en ordre per formar una frase ben feta',
+        visualHTML:'',
+        answer: frase.join(' ') };
+    };
+  }
+
+  // Quin signe de puntuació falta
+  function genPuntuacioF(){
+    return function(){
+      const [frase, signe] = pick(PUNTUACIO);
+      return { type:'ortografia', label:'Quin signe hi falta? ❓',
+        question:`Quin signe va al final d'aquesta frase?`,
+        visualHTML:`<div class="visual-row"><span class="num-card">${frase} ___</span></div>`,
+        options: shuffle(['.','?','!']),
+        answer: signe };
+    };
+  }
+
+  // Toca tots els mots d'un camp semàntic (tria múltiple)
+  function genTocaCampF(){
+    return function(){
+      const camp = pick(CAMPS);
+      const altres = shuffle(CAMPS.filter(c=>c.nom!==camp.nom));
+      const bons = shuffle(camp.mots).slice(0,3);
+      const dolents = [altres[0].mots, altres[1].mots, altres[2].mots].map(ms=>pick(ms));
+      const items = shuffle([...bons, ...dolents]);
+      return { type:'intrus', label:'Toca els del grup 👆',
+        format:'multi', items,
+        question:`Toca totes les paraules que són del grup ${camp.nom}`,
+        visualHTML:'',
+        answer: clauMulti(bons),
+        answerText: bons.join(', ') };
+    };
+  }
+
+  // Comprensió lectora
+  function genComprensioF(nomesLlargs){
+    return function(){
+      const pool = COMPRENSIO.filter(c=> nomesLlargs ? c.llarg : true);
+      const c = pick(pool.length ? pool : COMPRENSIO);
+      return { type:'comprensio', label:'Llegim i entenem 📖',
+        question: c.pregunta,
+        visualHTML:`<div class="visual-row"><div style="background:white;border:3px solid #dbe9ff;border-radius:18px;padding:14px 16px;font-size:1.05rem;line-height:1.5;text-align:left;max-width:460px;">${c.text}</div></div>`,
+        options: shuffle([c.resposta, ...c.dolentes]),
+        answer: c.resposta };
+    };
+  }
+
+  // Quina paraula és de la família de...
+  function genDerivatsF(){
+    return function(){
+      const [arrel, derivats] = pick(FAMILIES);
+      const answer = pick(derivats);
+      const totsDerivats = new Set(FAMILIES.flatMap(f=>f[1]).concat(FAMILIES.map(f=>f[0])));
+      const dolents = shuffle(MOTS.map(m=>m.mot).filter(x=>!totsDerivats.has(x))).slice(0,3);
+      return { type:'sinonims', label:'Família de paraules 👨‍👩‍👧',
+        question:`Quina paraula és de la família de ${arrel.toUpperCase()}?`,
+        visualHTML:'',
+        options: shuffle([answer, ...dolents]),
+        answer };
+    };
+  }
+
+  // Endevina el mot per la definició
+  function genDefinicioF(){
+    return function(){
+      const [definicio, mot] = pick(DEFINICIONS);
+      const dolents = shuffle(DEFINICIONS.filter(d=>d[1]!==mot)).slice(0,3).map(d=>d[1]);
+      return { type:'lectura', label:'Quina paraula és? 🔍',
+        question:`${definicio}. Quina paraula és?`,
+        visualHTML:'',
+        options: shuffle([mot, ...dolents]),
+        answer: mot };
+    };
+  }
+
+  // Posa el verb en passat, present o futur
+  function genConjugacioF(){
+    return function(){
+      const v = pick(VERBS_CONJUGATS);
+      const temps = pick(['Passat','Present','Futur']);
+      const answer = v[temps];
+      const dolents = ['Passat','Present','Futur'].filter(t=>t!==temps).map(t=>v[t]);
+      return { type:'verbs', label:'Conjuguem 🕰️',
+        question:`Com dic el verb ${v.inf.toUpperCase()} en ${temps.toLowerCase()}, parlant de mi?`,
+        visualHTML:`<div class="visual-row"><span class="num-card">jo ___</span></div>`,
+        options: shuffle([answer, ...dolents]),
+        answer };
+    };
+  }
+
+  // Toca tots els mots ben escrits (tria múltiple)
+  function genTocaOrtografiaF(grupsPerLvl){
+    return function(){
+      const grups = lvl(grupsPerLvl);
+      const parelles = shuffle(grups.flatMap(g=>ORTOGRAFIA[g]));
+      const bons = parelles.slice(0,3).map(p=>p[0]);
+      const dolents = parelles.slice(3,6).map(p=>p[1]);
+      const items = shuffle([...bons, ...dolents]);
+      return { type:'ortografia', label:'Toca els ben escrits ✍️',
+        format:'multi', items,
+        question:'Toca totes les paraules que estan ben escrites',
+        visualHTML:'',
+        answer: clauMulti(bons),
+        answerText: bons.join(', ') };
+    };
+  }
+
+  // Parlem formal o informal
+  function genRegistreF(){
+    return function(){
+      const [frase, answer] = pick(REGISTRE);
+      return { type:'registre', label:'Com ho diem? 🎭',
+        question:'Aquesta manera de parlar, és formal o informal?',
+        visualHTML:`<div class="visual-row"><span class="num-card">${frase}</span></div>`,
+        options: shuffle(['Formal','Informal']),
+        answer };
     };
   }
 
@@ -4307,6 +4618,9 @@
       genPrimeraLletraF(true, 2),
       genSillabesF([2,2,3], 2),
       genMajMinF(VOCALS, 2),
+      genSoInicialF(2),
+      genLletraFinalF(2),
+      genTocaLletraF([VOCALS, VOCALS, VOCALS]),
     ],
     i4: [
       genBuscaLletraF([CONSONANTS_I4_N1, CONSONANTS_I4_N2, CONSONANTS_I4_N3], 3, false),
@@ -4315,6 +4629,9 @@
       genSillabesF([2,3,3], 3),
       genMajMinF(['A','E','M','L','T','N'], 3),
       genRimaF(3),
+      genSoInicialF(3),
+      genTocaLletraF([CONSONANTS_I4_N1, CONSONANTS_I4_N2, CONSONANTS_I4_N3]),
+      genOrdenaLletresF([3,3,4]),
     ],
     i5: [
       genBuscaLletraF([ABECEDARI,ABECEDARI,ABECEDARI], 3, true),
@@ -4323,6 +4640,10 @@
       genSillabesF([3,4,4], 3),
       genRimaF(3),
       genLlegirMotF(3),
+      genOrdenaLletresF([4,4,5]),
+      genComptaMotsF(['curtes','curtes','mitjanes']),
+      genTocaSillabesF(),
+      genLletraFinalF(3),
     ],
     p1: [
       genLlegirMotF(4),
@@ -4333,6 +4654,10 @@
       genPluralF(3),
       genMajMinF(MAJMIN_POOL, 4),
       genPrimeraLletraF(false, 4),
+      genOrdenaLletresF([4,5,6]),
+      genGenereF(),
+      genOrdenaFraseTocantF(['curtes','curtes','mitjanes']),
+      genComptaMotsF(['curtes','mitjanes','mitjanes']),
     ],
     p2: [
       genOrdenaFraseF(['curtes','curtes','mitjanes']),
@@ -4342,6 +4667,11 @@
       genPluralF(3),
       genLletraQueFaltaF(4),
       genRimaF(4),
+      genOrdenaFraseTocantF(['curtes','mitjanes','mitjanes']),
+      genPuntuacioF(),
+      genComptaMotsF(['mitjanes','mitjanes','llargues']),
+      genTocaCampF(),
+      genGenereF(),
     ],
     p3: [
       genSinonimsF(4),
@@ -4351,6 +4681,11 @@
       genOrdreAlfF(4),
       genCategoriaF(),
       genOrdenaFraseF(['curtes','mitjanes','mitjanes']),
+      genComprensioF(false),
+      genApostrofF(),
+      genDerivatsF(),
+      genOrdenaFraseTocantF(['mitjanes','mitjanes','llargues']),
+      genPuntuacioF(),
     ],
     p4: [
       genTempsVerbalF(),
@@ -4361,6 +4696,10 @@
       genCategoriaF(),
       genOrdenaFraseF(['mitjanes','mitjanes','llargues']),
       genIntrusF(),
+      genComprensioF(false),
+      genDefinicioF(),
+      genConjugacioF(),
+      genDerivatsF(),
     ],
     p5: [
       genOrtografiaF([['gjx'],['gjx','accents'],['gjx','accents']]),
@@ -4371,6 +4710,10 @@
       genAntonimsF(4),
       genOrdenaFraseF(['mitjanes','llargues','llargues']),
       genTempsVerbalF(),
+      genComprensioF(true),
+      genDefinicioF(),
+      genDerivatsF(),
+      genTocaOrtografiaF([['gjx'],['gjx','accents'],['gjx','accents','sc']]),
     ],
     p6: [
       genOrtografiaF([['hd'],['hd','accents'],['hd','accents','gjx']]),
@@ -4381,6 +4724,10 @@
       genSinonimsF(4),
       genAntonimsF(4),
       genCategoriaF(),
+      genComprensioF(true),
+      genConjugacioF(),
+      genTocaOrtografiaF([['hd'],['hd','accents'],['hd','accents','gjx']]),
+      genRegistreF(),
     ],
   };
 
