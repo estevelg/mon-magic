@@ -13,7 +13,7 @@ partida — i un selector per canviar de curs al setembre.
 
 ## Jugar-hi ara
 
-**🎮 https://estevelg.github.io/mates-magiques/** — des de qualsevol dispositiu
+**🎮 https://estevelg.github.io/mon-magic/** — des de qualsevol dispositiu
 (mòbil, tauleta o ordinador). El progrés es guarda al navegador de cada dispositiu.
 
 ## Provar-ho en local

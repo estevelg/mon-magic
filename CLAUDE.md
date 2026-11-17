@@ -264,9 +264,10 @@ El joc ja té implementat:
    dashboard, TTS i UI. Mantenint EXACTAMENT els textos, rangs numèrics, colors i
    comportament actuals.
 4. ~~**(Opcional) Desplegar** com a lloc estàtic gratuït~~ ✅ Fet (2026-07-13):
-   publicat a **https://estevelg.github.io/mates-magiques/** (GitHub Pages, repositori
-   públic `estevelg/mates-magiques`, branca `main`, arrel). Cada push a `main`
-   redesplegua automàticament al cap d'un minut aproximadament.
+   publicat a **https://estevelg.github.io/mon-magic/** (GitHub Pages, repositori
+   públic `estevelg/mon-magic` — abans `mates-magiques`, reanomenat el 2026-11-17 —,
+   branca `main`, arrel). Cada push a `main` redesplegua automàticament al cap
+   d'un minut aproximadament.
 
 ## Com provar-ho ara mateix
 
